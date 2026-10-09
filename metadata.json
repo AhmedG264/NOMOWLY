@@ -1,0 +1,6 @@
+{
+  "name": "منصة نمولي | Nomowly - سوق التسويق بالأداء",
+  "description": "سوق تسويق بالأداء يربط العلامات التجارية بصناع المحتوى والمسوقين بالعمولة ومشتري الإعلانات مع نظام تتبع دقيق واحتساب آلي للعمولات.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

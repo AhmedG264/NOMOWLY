@@ -1,0 +1,711 @@
+// Nomowly Production Prisma Schema
+// Version: 2.2 Final Hardened
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ---------------------------------------------------------
+// ENUMS
+// ---------------------------------------------------------
+
+enum UserRole {
+  SUPER_ADMIN
+  BRAND
+  MARKETER
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING_VERIFICATION
+}
+
+enum SpecializationType {
+  CREATOR
+  AFFILIATE
+  MEDIA_BUYER
+}
+
+enum KycStatus {
+  NOT_STARTED
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum StorePlatform {
+  SALLA
+  ZID
+  SHOPIFY
+  CUSTOM_WEBHOOK
+}
+
+enum CampaignStatus {
+  DRAFT
+  PENDING_REVIEW
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+  REJECTED
+}
+
+enum CommissionType {
+  PERCENTAGE // CPS
+  FLAT_FEE   // Flat amount
+}
+
+enum ApplicationMode {
+  AUTO_APPROVE
+  MANUAL_REVIEW
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  APPROVED
+  REJECTED
+  WITHDRAWN
+  SUSPENDED
+}
+
+enum ConversionStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum CommissionStatus {
+  PENDING
+  AVAILABLE
+  PAID
+  VOIDED
+  ADJUSTED
+}
+
+enum FlatFeeRefundPolicy {
+  PROPORTIONAL
+  FULL_VOID
+  THRESHOLD_BASED
+}
+
+enum BudgetReservationStatus {
+  ACTIVE
+  EXHAUSTED
+  RELEASED
+  CANCELLED
+}
+
+enum BrandPaymentStatus {
+  INITIATED
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+enum WithdrawalStatus {
+  REQUESTED
+  UNDER_REVIEW
+  APPROVED
+  PROCESSING
+  PAID
+  FAILED
+  REJECTED
+  CANCELLED
+}
+
+enum LedgerAccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+enum LedgerTransactionType {
+  BRAND_DEPOSIT
+  CAMPAIGN_BUDGET_RESERVE
+  CAMPAIGN_BUDGET_RELEASE
+  COMMISSION_RESERVATION
+  COMMISSION_MATURITY
+  PLATFORM_FEE_RECOGNITION
+  FULL_REFUND_REVERSAL
+  PARTIAL_REFUND_ADJUSTMENT
+  POST_PAYOUT_CHARGEBACK
+  WITHDRAWAL_INITIATED
+  WITHDRAWAL_SETTLED
+  WITHDRAWAL_FAILED_REVERSAL
+  MANUAL_ADJUSTMENT
+}
+
+// ---------------------------------------------------------
+// CORE IDENTITY & PROFILES
+// ---------------------------------------------------------
+
+model User {
+  id              String           @id @default(uuid())
+  email           String           @unique
+  passwordHash    String
+  role            UserRole
+  status          UserStatus       @default(ACTIVE)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  brandProfile    BrandProfile?
+  marketerProfile MarketerProfile?
+  auditLogs       AuditLog[]
+
+  @@map("users")
+}
+
+model BrandProfile {
+  id                 String                      @id @default(uuid())
+  userId             String                      @unique
+  user               User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName        String
+  legalName          String?
+  commercialRegNo    String?
+  websiteUrl         String
+  logoUrl            String?
+  currency           String                      @default("SAR")
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime                    @updatedAt
+
+  stores             BrandStore[]
+  products           Product[]
+  campaigns          Campaign[]
+  budgetReservations CampaignBudgetReservation[]
+  payments           BrandPayment[]
+  wallet             Wallet?
+  ledgerTransactions LedgerTransaction[]
+
+  @@map("brand_profiles")
+}
+
+model MarketerProfile {
+  id              String                   @id @default(uuid())
+  userId          String                   @unique
+  user            User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName        String
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+
+  specializations MarketerSpecialization[]
+  kycProfile      KycProfile?
+  payoutMethods   PayoutMethod[]
+  socialAccounts  SocialAccount[]
+  applications    CampaignApplication[]
+  trackingLinks   TrackingLink[]
+  commissions     Commission[]
+  wallet          Wallet?
+
+  @@map("marketer_profiles")
+}
+
+model MarketerSpecialization {
+  id                String             @id @default(uuid())
+  marketerProfileId String
+  marketerProfile   MarketerProfile    @relation(fields: [marketerProfileId], references: [id], onDelete: Cascade)
+  specialization    SpecializationType
+  isPrimary         Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+
+  @@unique([marketerProfileId, specialization])
+  @@index([marketerProfileId, isPrimary])
+  @@map("marketer_specializations")
+}
+
+model KycProfile {
+  id                     String          @id @default(uuid())
+  marketerProfileId      String          @unique
+  marketerProfile        MarketerProfile @relation(fields: [marketerProfileId], references: [id], onDelete: Cascade)
+  status                 KycStatus       @default(NOT_STARTED)
+  legalFullName          String?
+  nationalIdEncrypted    String?
+  nationalIdIv           String?
+  nationalIdTag          String?
+  nationalIdFingerprint  String?
+  documentType           String?
+  documentStoragePath    String?
+  rejectionReason        String?
+  verifiedAt             DateTime?
+  updatedAt              DateTime        @updatedAt
+
+  @@index([nationalIdFingerprint])
+  @@map("kyc_profiles")
+}
+
+model PayoutMethod {
+  id                     String             @id @default(uuid())
+  marketerProfileId      String
+  marketerProfile        MarketerProfile    @relation(fields: [marketerProfileId], references: [id], onDelete: Cascade)
+  beneficiaryNameEncrypted String
+  beneficiaryNameIv      String
+  beneficiaryNameTag     String
+  bankName               String
+  ibanEncrypted          String
+  ibanIv                 String
+  ibanTag                String
+  ibanFingerprint        String
+  maskedIban             String
+  isDefault              Boolean            @default(false)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  withdrawalRequests     WithdrawalRequest[]
+
+  @@unique([marketerProfileId, ibanFingerprint])
+  @@map("payout_methods")
+}
+
+model SocialAccount {
+  id                String          @id @default(uuid())
+  marketerProfileId String
+  marketerProfile   MarketerProfile @relation(fields: [marketerProfileId], references: [id], onDelete: Cascade)
+  platform          String
+  handle            String
+  followerCount     Int             @default(0)
+  profileUrl        String
+  createdAt         DateTime        @default(now())
+
+  @@unique([marketerProfileId, platform, handle])
+  @@map("social_accounts")
+}
+
+// ---------------------------------------------------------
+// STORES & CATALOG
+// ---------------------------------------------------------
+
+model BrandStore {
+  id                       String        @id @default(uuid())
+  brandProfileId           String
+  brandProfile             BrandProfile  @relation(fields: [brandProfileId], references: [id], onDelete: Cascade)
+  platform                 StorePlatform @default(CUSTOM_WEBHOOK)
+  storeDomain              String
+  encryptedWebhookSecret   String
+  webhookSecretIv          String
+  webhookSecretTag         String
+  webhookSecretFingerprint String
+  previousEncryptedSecret  String?
+  previousSecretExpiresAt  DateTime?
+  secretKeyRotatedAt       DateTime      @default(now())
+  isActive                 Boolean       @default(true)
+  createdAt                DateTime      @default(now())
+  updatedAt                DateTime      @updatedAt
+
+  conversions              Conversion[]
+
+  @@unique([brandProfileId, storeDomain])
+  @@index([webhookSecretFingerprint])
+  @@map("brand_stores")
+}
+
+model Product {
+  id               String            @id @default(uuid())
+  brandProfileId   String
+  brandProfile     BrandProfile      @relation(fields: [brandProfileId], references: [id], onDelete: Cascade)
+  title            String
+  sku              String?
+  externalId       String?
+  price            Decimal           @db.Decimal(12, 2)
+  currency         String            @default("SAR")
+  productUrl       String
+  imageUrl         String?
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  campaignProducts CampaignProduct[]
+  conversionItems  ConversionItem[]
+
+  @@unique([brandProfileId, sku])
+  @@map("products")
+}
+
+// ---------------------------------------------------------
+// CAMPAIGNS & BUDGET RESERVATION
+// ---------------------------------------------------------
+
+model Campaign {
+  id                      String                  @id @default(uuid())
+  brandProfileId          String
+  brandProfile            BrandProfile            @relation(fields: [brandProfileId], references: [id], onDelete: Cascade)
+  title                   String
+  description             String
+  status                  CampaignStatus          @default(DRAFT)
+  commissionType          CommissionType          @default(PERCENTAGE)
+  commissionValue         Decimal                 @db.Decimal(10, 2)
+  platformFeeRate         Decimal                 @default(0.02) @db.Decimal(5, 4)
+  flatFeeRefundPolicy     FlatFeeRefundPolicy     @default(PROPORTIONAL)
+  flatFeeRefundThreshold  Decimal?                @db.Decimal(10, 2)
+  cookieDurationDays      Int                     @default(30)
+  lockPeriodDays          Int                     @default(30)
+  budgetCap               Decimal                 @db.Decimal(14, 2)
+  isAllProducts           Boolean                 @default(true)
+  applicationMode         ApplicationMode         @default(MANUAL_REVIEW)
+  trafficRestrictions     String?
+  geoRestrictions         String                  @default("SA")
+  currency                String                  @default("SAR")
+  startsAt                DateTime?
+  endsAt                  DateTime?
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+
+  campaignProducts        CampaignProduct[]
+  applications            CampaignApplication[]
+  trackingLinks           TrackingLink[]
+  commissions             Commission[]
+  budgetReservations      CampaignBudgetReservation[]
+  ledgerTransactions      LedgerTransaction[]
+
+  @@index([status])
+  @@index([brandProfileId, status])
+  @@map("campaigns")
+}
+
+model CampaignBudgetReservation {
+  id                 String                  @id @default(uuid())
+  campaignId         String
+  campaign           Campaign                @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  brandProfileId     String
+  brandProfile       BrandProfile            @relation(fields: [brandProfileId], references: [id], onDelete: Cascade)
+  reservedAmount     Decimal                 @db.Decimal(14, 2)
+  consumedAmount     Decimal                 @default(0.00) @db.Decimal(14, 2)
+  releasedAmount     Decimal                 @default(0.00) @db.Decimal(14, 2)
+  status             BudgetReservationStatus @default(ACTIVE)
+  currency           String                  @default("SAR")
+  expiresAt          DateTime?
+  releasedAt         DateTime?
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @updatedAt
+
+  ledgerTransactions LedgerTransaction[]
+
+  @@index([campaignId, status])
+  @@map("campaign_budget_reservations")
+}
+
+model CampaignProduct {
+  id         String   @id @default(uuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([campaignId, productId])
+  @@map("campaign_products")
+}
+
+model CampaignApplication {
+  id                String            @id @default(uuid())
+  campaignId        String
+  campaign          Campaign          @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  marketerProfileId String
+  marketerProfile   MarketerProfile   @relation(fields: [marketerProfileId], references: [id], onDelete: Cascade)
+  status            ApplicationStatus @default(SUBMITTED)
+  pitchNote         String?
+  reviewNote        String?
+  appliedAt         DateTime          @default(now())
+  reviewedAt        DateTime?
+
+  trackingLink      TrackingLink?
+
+  @@unique([campaignId, marketerProfileId])
+  @@index([status])
+  @@map("campaign_applications")
+}
+
+// ---------------------------------------------------------
+// TRACKING & ATTRIBUTION
+// ---------------------------------------------------------
+
+model TrackingLink {
+  id                    String              @id @default(uuid())
+  campaignId            String
+  campaign              Campaign            @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  marketerProfileId     String
+  marketerProfile       MarketerProfile     @relation(fields: [marketerProfileId], references: [id], onDelete: Cascade)
+  campaignApplicationId String              @unique
+  campaignApplication   CampaignApplication @relation(fields: [campaignApplicationId], references: [id], onDelete: Cascade)
+  shortCode             String              @unique
+  destinationUrl        String
+  clicksCount           Int                 @default(0)
+  conversionsCount      Int                 @default(0)
+  createdAt             DateTime            @default(now())
+
+  clicks                Click[]
+
+  @@index([shortCode])
+  @@map("tracking_links")
+}
+
+model Click {
+  id              String       @id @default(uuid())
+  trackingLinkId  String
+  trackingLink    TrackingLink @relation(fields: [trackingLinkId], references: [id], onDelete: Cascade)
+  ipHash          String
+  userAgent       String
+  referer         String?
+  geoCountry      String?      @default("SA")
+  sub1            String?
+  sub2            String?
+  sub3            String?
+  externalClickId String?
+  createdAt       DateTime     @default(now())
+
+  conversions     Conversion[]
+
+  @@index([trackingLinkId, createdAt])
+  @@index([createdAt])
+  @@map("clicks")
+}
+
+// ---------------------------------------------------------
+// CONVERSIONS & COMMISSIONS
+// ---------------------------------------------------------
+
+model Conversion {
+  id                           String           @id @default(uuid())
+  brandStoreId                 String
+  brandStore                   BrandStore       @relation(fields: [brandStoreId], references: [id], onDelete: Restrict)
+  clickId                      String?
+  click                        Click?           @relation(fields: [clickId], references: [id], onDelete: SetNull)
+  externalOrderId              String
+  subtotalAmount               Decimal          @db.Decimal(12, 2)
+  discountAmount               Decimal          @default(0.00) @db.Decimal(12, 2)
+  shippingAmount               Decimal          @default(0.00) @db.Decimal(12, 2)
+  taxAmount                    Decimal          @default(0.00) @db.Decimal(12, 2)
+  netCommissionBase            Decimal          @db.Decimal(12, 2)
+  currency                     String           @default("SAR")
+  status                       ConversionStatus @default(PENDING)
+  
+  // Immutable Attribution Snapshot
+  attributedCampaignId         String
+  attributedMarketerId         String
+  attributedTrackingLinkId     String
+  attributionClickId           String
+  attributionMethod            String           @default("LAST_TOUCH")
+  attributionWindowDaysSnapshot Int              @default(30)
+  attributedAt                 DateTime         @default(now())
+
+  createdAt                    DateTime         @default(now())
+  updatedAt                    DateTime         @updatedAt
+
+  items                        ConversionItem[]
+  commission                   Commission?
+  ledgerTransactions           LedgerTransaction[]
+
+  @@unique([brandStoreId, externalOrderId])
+  @@index([clickId])
+  @@index([attributedMarketerId, status])
+  @@map("conversions")
+}
+
+model ConversionItem {
+  id                String      @id @default(uuid())
+  conversionId      String
+  conversion        Conversion  @relation(fields: [conversionId], references: [id], onDelete: Cascade)
+  productId         String?
+  product           Product?    @relation(fields: [productId], references: [id], onDelete: SetNull)
+  externalProductId String?
+  title             String
+  quantity          Int         @default(1)
+  unitPrice         Decimal     @db.Decimal(12, 2)
+  discountAmount    Decimal     @default(0.00) @db.Decimal(12, 2)
+  eligibleAmount    Decimal     @db.Decimal(12, 2)
+  isEligible        Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+
+  @@index([conversionId])
+  @@map("conversion_items")
+}
+
+model Commission {
+  id                 String           @id @default(uuid())
+  conversionId       String           @unique
+  conversion         Conversion       @relation(fields: [conversionId], references: [id], onDelete: Restrict)
+  campaignId         String
+  campaign           Campaign         @relation(fields: [campaignId], references: [id], onDelete: Restrict)
+  marketerProfileId  String
+  marketerProfile    MarketerProfile  @relation(fields: [marketerProfileId], references: [id], onDelete: Restrict)
+  
+  appliedRateType    CommissionType
+  appliedRateValue   Decimal          @db.Decimal(10, 2)
+  commissionBase     Decimal          @db.Decimal(12, 2)
+  marketerAmount     Decimal          @db.Decimal(12, 2)
+  platformFeeAmount  Decimal          @db.Decimal(12, 2)
+  brandTotalCost     Decimal          @db.Decimal(12, 2)
+  
+  status             CommissionStatus @default(PENDING)
+  matureAt           DateTime
+  voidReason         String?
+  currency           String           @default("SAR")
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  ledgerTransactions LedgerTransaction[]
+
+  @@index([status, matureAt])
+  @@index([marketerProfileId, status])
+  @@map("commissions")
+}
+
+// ---------------------------------------------------------
+// BRAND PAYMENTS & FUNDING
+// ---------------------------------------------------------
+
+model BrandPayment {
+  id                  String             @id @default(uuid())
+  brandProfileId      String
+  brandProfile        BrandProfile       @relation(fields: [brandProfileId], references: [id], onDelete: Restrict)
+  ledgerTransactionId String?            @unique
+  ledgerTransaction   LedgerTransaction? @relation(fields: [ledgerTransactionId], references: [id], onDelete: Restrict)
+  amount              Decimal            @db.Decimal(14, 2)
+  currency            String             @default("SAR")
+  status              BrandPaymentStatus @default(INITIATED)
+  paymentProvider     String
+  gatewayReference    String?
+  idempotencyKey      String             @unique
+  failureReason       String?
+  createdAt           DateTime           @default(now())
+  settledAt           DateTime?
+
+  @@index([brandProfileId, status])
+  @@map("brand_payments")
+}
+
+// ---------------------------------------------------------
+// FINANCIAL LEDGER & WALLETS
+// ---------------------------------------------------------
+
+model Wallet {
+  id                String           @id @default(uuid())
+  brandProfileId    String?          @unique
+  brandProfile      BrandProfile?    @relation(fields: [brandProfileId], references: [id], onDelete: Cascade)
+  marketerProfileId String?          @unique
+  marketerProfile   MarketerProfile? @relation(fields: [marketerProfileId], references: [id], onDelete: Cascade)
+  
+  cachedPending     Decimal          @default(0.00) @db.Decimal(14, 2)
+  cachedAvailable   Decimal          @default(0.00) @db.Decimal(14, 2)
+  cachedReserved    Decimal          @default(0.00) @db.Decimal(14, 2)
+  cachedWithdrawn   Decimal          @default(0.00) @db.Decimal(14, 2)
+  cachedReceivable  Decimal          @default(0.00) @db.Decimal(14, 2)
+  currency          String           @default("SAR")
+  updatedAt         DateTime         @updatedAt
+
+  withdrawalRequests WithdrawalRequest[]
+
+  @@map("wallets")
+}
+
+model LedgerAccount {
+  id        String            @id @default(uuid())
+  code      String            @unique
+  name      String
+  type      LedgerAccountType
+  currency  String            @default("SAR")
+  isActive  Boolean           @default(true)
+  createdAt DateTime          @default(now())
+
+  entries   LedgerEntry[]
+
+  @@map("ledger_accounts")
+}
+
+model LedgerTransaction {
+  id                    String                @id @default(uuid())
+  type                  LedgerTransactionType
+  description           String
+  currency              String                @default("SAR")
+  
+  // Structured Business Context
+  brandProfileId        String?
+  brandProfile          BrandProfile?         @relation(fields: [brandProfileId], references: [id], onDelete: SetNull)
+  campaignId            String?
+  campaign              Campaign?             @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  campaignReservationId String?
+  campaignReservation   CampaignBudgetReservation? @relation(fields: [campaignReservationId], references: [id], onDelete: SetNull)
+  conversionId          String?
+  conversion            Conversion?           @relation(fields: [conversionId], references: [id], onDelete: SetNull)
+  commissionId          String?
+  commission            Commission?           @relation(fields: [commissionId], references: [id], onDelete: SetNull)
+  referenceId           String?
+  
+  createdAt             DateTime              @default(now())
+
+  entries               LedgerEntry[]
+  brandPayment          BrandPayment?
+
+  @@index([type, referenceId])
+  @@index([brandProfileId, createdAt])
+  @@index([createdAt])
+  @@map("ledger_transactions")
+}
+
+model LedgerEntry {
+  id                  String            @id @default(uuid())
+  ledgerTransactionId String
+  ledgerTransaction   LedgerTransaction @relation(fields: [ledgerTransactionId], references: [id], onDelete: Restrict)
+  ledgerAccountId     String
+  ledgerAccount       LedgerAccount     @relation(fields: [ledgerAccountId], references: [id], onDelete: Restrict)
+  debitAmount         Decimal           @default(0.00) @db.Decimal(14, 2)
+  creditAmount        Decimal           @default(0.00) @db.Decimal(14, 2)
+  createdAt           DateTime          @default(now())
+
+  @@index([ledgerAccountId, createdAt])
+  @@map("ledger_entries")
+}
+
+model WithdrawalRequest {
+  id                       String           @id @default(uuid())
+  walletId                 String
+  wallet                   Wallet           @relation(fields: [walletId], references: [id], onDelete: Restrict)
+  payoutMethodId           String
+  payoutMethod             PayoutMethod     @relation(fields: [payoutMethodId], references: [id], onDelete: Restrict)
+  amount                   Decimal          @db.Decimal(12, 2)
+  currency                 String           @default("SAR")
+  status                   WithdrawalStatus @default(REQUESTED)
+  beneficiarySnapshotEncrypted String
+  beneficiarySnapshotIv    String
+  beneficiarySnapshotTag   String
+  ibanSnapshotEncrypted    String
+  ibanSnapshotIv           String
+  ibanSnapshotTag          String
+  maskedIbanSnapshot       String
+  payoutReference          String?
+  adminNotes               String?
+  requestedAt              DateTime         @default(now())
+  processedAt              DateTime?
+
+  @@index([status, requestedAt])
+  @@map("withdrawal_requests")
+}
+
+// ---------------------------------------------------------
+// AUDITING
+// ---------------------------------------------------------
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String
+  payloadDiff Json?
+  ipHash     String?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

@@ -1,11 +1,65 @@
-<div align="center">
+# نمولي | Nomowly — سوق التسويق بالأداء
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+**Nomowly** هي منصة وسوق تسويق بالأداء مصممة خصيصاً للمملكة العربية السعودية ومنطقة الخليج العربي، مبنية بنظام محاسبي مزدوج (Double-Entry Ledger) غير قابل للتعديل، ونظام تتبع وإسناد متقدم باللمسة الأخيرة (Last-Touch Attribution).
 
-  <h1>Built with AI Studio</h2>
+---
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## الميزات المعمارية والتقنية (Core Features)
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+1. **الدفتر المالي المزدوج (Double-Entry Ledger):**
+   - كافة الحركات المالية تخضع لمعادلة التوازن الصارم: $\sum \text{Debits} = \sum \text{Credits}$.
+   - حظر التعديل أو الحذف (Append-Only).
+   - دليل حسابات متكامل يشمل:
+     - `1010_ESCROW_BANK` (أصل: بنك الضمان)
+     - `1020_MARKETER_RECEIVABLE` (أصل: ذمم مدينة / رصيد سالب للمسوق)
+     - `2010_BRAND_DEPOSIT` (التزام: أمانات التاجر الحرة)
+     - `2015_BRAND_CAMPAIGN_RESERVED` (التزام: ميزانيات الحملات المحجوزة)
+     - `2020_MARKETER_COMMISSION_PENDING` (التزام: عمولات معلقة قيد الفحص)
+     - `2025_PLATFORM_FEE_PENDING` (التزام: رسوم نمولي المعلقة)
+     - `2030_MARKETER_PAYABLE` (التزام: مستحقات متاحة للسحب)
+     - `4010_PLATFORM_REVENUE` (إيراد: رسوم نمولي المكتسبة)
+     - `5010_BANK_ADJUSTMENT_VARIANCE` (تسويات وفروقات بنكية)
 
-</div>
+2. **التتبع فائق السرعة والإسناد اللحظي:**
+   - مسار تحويل سريع عبر نقطة `/c/:shortCode` مع إلحاق معامل `nmw_cid`.
+   - حفظ فوري لمعرف النقرة في الذاكرة السريعة مع مدة TTL مشتقة ديناميكياً من `cookieDurationDays`.
+   - لقطة إسناد تاريخية ثابتة (Attribution Snapshot) محفوظة مباشرة داخل سجل التحويل (`Conversion`).
+
+3. **التشفير وحماية البيانات الحساسة:**
+   - تشفير AES-256-GCM للهوية الوطنية ورقم الآيبان ومفاتيح الويب هوك السرية.
+   - بصمات رقمية مجزأة بمفتاح (HMAC-SHA256 Fingerprints) لمنع التكرار دون كشف البيانات الصريحة.
+   - تجزئة عناوين الـ IP دورياً بملح أمني في سجلات النقرات والتدقيق.
+
+---
+
+## تشغيل النظام والاختبارات الآلية
+
+### 1. تشغيل الاختبارات الآلية الشاملة:
+```bash
+npm run test
+```
+تتحقق من صحة:
+- تشفير وفك تشفير AES-256-GCM والتحقق من التوقيع بالوقت الثابت.
+- تسجيل الدخول والتحقق من كلمات المرور المشفرة.
+- توازن دفتر الأستاذ ورفض القيود غير المتوازنة.
+- حجز واستهلاك وتحرير ميزانيات الحملات.
+- الإسناد واحتساب وعاء العمولة الصافي (استبعاد الضرائب والشحن).
+- تسوية مديونية المسوق (Receivable Offset) عند نضج أرباح جديدة.
+- اشتراطات التحقق (KYC) والحد الأدنى للسحب (150 ر.س).
+
+### 2. تشغيل خادم التطوير الموحد (Port 3000):
+```bash
+npm run dev
+```
+
+### 3. مسارات واجهة البرمجة (REST API Endpoints):
+- وثائق الـ API: `GET /api/v1/docs`
+- فحص الحالة: `GET /api/health`
+- المصادقة: `POST /api/v1/auth/register`, `POST /api/v1/auth/login`
+- إيداع الضمان: `POST /api/v1/brands/deposit`
+- الحملات: `POST /api/v1/campaigns`, `POST /api/v1/campaigns/:id/reserve-budget`
+- روابط التتبع: `POST /api/v1/tracking/links`
+- تحويل النقرة: `GET /c/:shortCode`
+- ويب هوك التحويل: `POST /api/v1/conversions/webhook`
+- استعلام الدفتر: `GET /api/v1/ledger/transactions`
+- طلبات السحب: `POST /api/v1/withdrawals/request`
