@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\AuditAction;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class AuditLog extends Model
+{
+    use HasUuids;
+
+    public $timestamps = false;
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected $fillable = [
+        'user_id',
+        'action',
+        'entity_type',
+        'entity_id',
+        'payload_diff',
+        'ip_address',
+        'user_agent',
+        'created_at',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'action' => AuditAction::class,
+            'payload_diff' => 'array',
+            'created_at' => 'datetime',
+        ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+}

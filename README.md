@@ -1,65 +1,59 @@
-# نمولي | Nomowly — سوق التسويق بالأداء
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-**Nomowly** هي منصة وسوق تسويق بالأداء مصممة خصيصاً للمملكة العربية السعودية ومنطقة الخليج العربي، مبنية بنظام محاسبي مزدوج (Double-Entry Ledger) غير قابل للتعديل، ونظام تتبع وإسناد متقدم باللمسة الأخيرة (Last-Touch Attribution).
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
----
+## About Laravel
 
-## الميزات المعمارية والتقنية (Core Features)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-1. **الدفتر المالي المزدوج (Double-Entry Ledger):**
-   - كافة الحركات المالية تخضع لمعادلة التوازن الصارم: $\sum \text{Debits} = \sum \text{Credits}$.
-   - حظر التعديل أو الحذف (Append-Only).
-   - دليل حسابات متكامل يشمل:
-     - `1010_ESCROW_BANK` (أصل: بنك الضمان)
-     - `1020_MARKETER_RECEIVABLE` (أصل: ذمم مدينة / رصيد سالب للمسوق)
-     - `2010_BRAND_DEPOSIT` (التزام: أمانات التاجر الحرة)
-     - `2015_BRAND_CAMPAIGN_RESERVED` (التزام: ميزانيات الحملات المحجوزة)
-     - `2020_MARKETER_COMMISSION_PENDING` (التزام: عمولات معلقة قيد الفحص)
-     - `2025_PLATFORM_FEE_PENDING` (التزام: رسوم نمولي المعلقة)
-     - `2030_MARKETER_PAYABLE` (التزام: مستحقات متاحة للسحب)
-     - `4010_PLATFORM_REVENUE` (إيراد: رسوم نمولي المكتسبة)
-     - `5010_BANK_ADJUSTMENT_VARIANCE` (تسويات وفروقات بنكية)
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-2. **التتبع فائق السرعة والإسناد اللحظي:**
-   - مسار تحويل سريع عبر نقطة `/c/:shortCode` مع إلحاق معامل `nmw_cid`.
-   - حفظ فوري لمعرف النقرة في الذاكرة السريعة مع مدة TTL مشتقة ديناميكياً من `cookieDurationDays`.
-   - لقطة إسناد تاريخية ثابتة (Attribution Snapshot) محفوظة مباشرة داخل سجل التحويل (`Conversion`).
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-3. **التشفير وحماية البيانات الحساسة:**
-   - تشفير AES-256-GCM للهوية الوطنية ورقم الآيبان ومفاتيح الويب هوك السرية.
-   - بصمات رقمية مجزأة بمفتاح (HMAC-SHA256 Fingerprints) لمنع التكرار دون كشف البيانات الصريحة.
-   - تجزئة عناوين الـ IP دورياً بملح أمني في سجلات النقرات والتدقيق.
+## Learning Laravel
 
----
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
 
-## تشغيل النظام والاختبارات الآلية
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-### 1. تشغيل الاختبارات الآلية الشاملة:
-```bash
-npm run test
-```
-تتحقق من صحة:
-- تشفير وفك تشفير AES-256-GCM والتحقق من التوقيع بالوقت الثابت.
-- تسجيل الدخول والتحقق من كلمات المرور المشفرة.
-- توازن دفتر الأستاذ ورفض القيود غير المتوازنة.
-- حجز واستهلاك وتحرير ميزانيات الحملات.
-- الإسناد واحتساب وعاء العمولة الصافي (استبعاد الضرائب والشحن).
-- تسوية مديونية المسوق (Receivable Offset) عند نضج أرباح جديدة.
-- اشتراطات التحقق (KYC) والحد الأدنى للسحب (150 ر.س).
+## Laravel Sponsors
 
-### 2. تشغيل خادم التطوير الموحد (Port 3000):
-```bash
-npm run dev
-```
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### 3. مسارات واجهة البرمجة (REST API Endpoints):
-- وثائق الـ API: `GET /api/v1/docs`
-- فحص الحالة: `GET /api/health`
-- المصادقة: `POST /api/v1/auth/register`, `POST /api/v1/auth/login`
-- إيداع الضمان: `POST /api/v1/brands/deposit`
-- الحملات: `POST /api/v1/campaigns`, `POST /api/v1/campaigns/:id/reserve-budget`
-- روابط التتبع: `POST /api/v1/tracking/links`
-- تحويل النقرة: `GET /c/:shortCode`
-- ويب هوك التحويل: `POST /api/v1/conversions/webhook`
-- استعلام الدفتر: `GET /api/v1/ledger/transactions`
-- طلبات السحب: `POST /api/v1/withdrawals/request`
+### Premium Partners
+
+- **[Vehikl](https://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Redberry](https://redberry.international/laravel-development)**
+- **[Active Logic](https://activelogic.com)**
+
+## Contributing
+
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
