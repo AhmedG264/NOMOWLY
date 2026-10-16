@@ -6,6 +6,7 @@ use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Enforce HTTPS URL generation when request is forwarded as HTTPS (Cloud Run, reverse proxies, Hostinger SSL)
+        // or when running in production or behind secure domains.
+        // Avoid unconditionally forcing HTTPS for local HTTP development.
+        if (
+            $this->app->environment("production") ||
+            env("APP_FORCE_HTTPS", false) ||
+            request()->isSecure() ||
+            (request()->hasHeader("X-Forwarded-Proto") && request()->header("X-Forwarded-Proto") === "https") ||
+            (isset($_SERVER["HTTP_X_FORWARDED_PROTO"]) && $_SERVER["HTTP_X_FORWARDED_PROTO"] === "https") ||
+            str_contains(request()->getHost(), "run.app")
+        ) {
+            URL::forceScheme("https");
+        }
         // Server-side Authorization Gates
         Gate::define('access-super-admin', function (User $user) {
             return $user->role === UserRole::SUPER_ADMIN;

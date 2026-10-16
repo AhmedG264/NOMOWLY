@@ -171,7 +171,7 @@
                                                 {{ $app->tracking_code }}
                                             </span>
                                             <button type="button"
-                                                    @click="navigator.clipboard.writeText('{{ $app->tracking_code }}'); copied = true; setTimeout(() => copied = false, 2000)"
+                                                    @click="window.copyToClipboard('{{ $app->tracking_code }}').then(() => { copied = true; setTimeout(() => copied = false, 2500); })" title="نسخ كود الخصم" aria-label="نسخ كود الخصم"
                                                     class="text-[11px] px-2.5 py-1 rounded-lg font-bold transition cursor-pointer"
                                                     :class="copied ? 'bg-emerald-700 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white'">
                                                 <span x-show="!copied">نسخ الكود</span>
@@ -189,7 +189,7 @@
                                                 {{ $app->tracking_link }}
                                             </span>
                                             <button type="button"
-                                                    @click="navigator.clipboard.writeText('{{ $app->tracking_link }}'); copied = true; setTimeout(() => copied = false, 2000)"
+                                                    @click="window.copyToClipboard('{{ $app->tracking_link }}').then(() => { copied = true; setTimeout(() => copied = false, 2500); })" title="نسخ رابط التتبع" aria-label="نسخ رابط التتبع"
                                                     class="text-[11px] px-2.5 py-1 rounded-lg font-bold transition cursor-pointer"
                                                     :class="copied ? 'bg-emerald-700 text-white' : 'bg-slate-800 hover:bg-slate-900 text-white'">
                                                 <span x-show="!copied">نسخ الرابط</span>

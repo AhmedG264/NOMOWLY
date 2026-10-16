@@ -6,9 +6,12 @@
         "dev": "php artisan serve --host=0.0.0.0 --port=3000",
         "build": "vite build",
         "lint": "php -l $(find app routes config database -name '*.php')",
-        "test": "php artisan test"
+        "test": "php artisan test",
+        "test:e2e": "playwright test",
+        "start": "node server.ts"
     },
     "devDependencies": {
+        "@playwright/test": "^1.64.1",
         "@tailwindcss/vite": "^4.0.0",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",

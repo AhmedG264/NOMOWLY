@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Str;
 
+$isPreviewHost = (isset($_SERVER["HTTP_X_FORWARDED_HOST"]) && str_contains($_SERVER["HTTP_X_FORWARDED_HOST"], "run.app")) ||
+                 (isset($_SERVER["HTTP_HOST"]) && str_contains($_SERVER["HTTP_HOST"], "run.app"));
+
 return [
 
     /*
@@ -169,7 +172,9 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    // Conditionally configure cross-site iframe compatibility for the Gemini preview environment (*.run.app)
+    // while preserving standard Lax/First-Party security for production (Hostinger) and local dev.
+    'secure' => env('SESSION_SECURE_COOKIE', $isPreviewHost ? true : null),
 
     /*
     |--------------------------------------------------------------------------
@@ -193,25 +198,22 @@ return [
     | take place, and can be used to mitigate CSRF attacks. By default, we
     | will set this value to "lax" to permit secure cross-site requests.
     |
-    | See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#samesitesamesite-value
-    |
     | Supported: "lax", "strict", "none", null
     |
     */
 
-    'same_site' => env('SESSION_SAME_SITE', 'lax'),
+    'same_site' => env('SESSION_SAME_SITE', $isPreviewHost ? 'none' : 'lax'),
 
     /*
     |--------------------------------------------------------------------------
-    | Partitioned Cookies
+    | Partitioned Cookies (CHIPS)
     |--------------------------------------------------------------------------
     |
-    | Setting this value to true will tie the cookie to the top-level site for
-    | a cross-site context. Partitioned cookies are accepted by the browser
-    | when flagged "secure" and the Same-Site attribute is set to "none".
+    | Setting this value to true ties the cookie to the top-level partition for
+    | cross-site iframe contexts. Accepted in modern browsers when flagged secure.
     |
     */
 
-    'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
+    'partitioned' => env('SESSION_PARTITIONED_COOKIE', $isPreviewHost ? true : false),
 
 ];

@@ -1,0 +1,15 @@
+.git
+.github
+node_modules
+.cache
+test-results
+playwright-report
+tests
+*.log
+storage/logs/*.log
+storage/framework/sessions/*
+storage/framework/views/*
+storage/framework/cache/*
+.env
+.env.backup
+.phpunit.result.cache

@@ -218,7 +218,7 @@
 
                                             </span>
                                             <button type="button"
-                                                    @click="navigator.clipboard.writeText('<?php echo e($myApplication->tracking_code); ?>'); copied = true; setTimeout(() => copied = false, 2000)"
+                                                    @click="window.copyToClipboard('<?php echo e($myApplication->tracking_code); ?>').then(() => { copied = true; setTimeout(() => copied = false, 2500); })" title="نسخ كود الخصم" aria-label="نسخ كود الخصم"
                                                     class="text-xs px-3 py-1 rounded-lg font-bold transition cursor-pointer"
                                                     :class="copied ? 'bg-emerald-700 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white'">
                                                 <span x-show="!copied">نسخ</span>
@@ -237,7 +237,7 @@
 
                                             </span>
                                             <button type="button"
-                                                    @click="navigator.clipboard.writeText('<?php echo e($myApplication->tracking_link); ?>'); copied = true; setTimeout(() => copied = false, 2000)"
+                                                    @click="window.copyToClipboard('<?php echo e($myApplication->tracking_link); ?>').then(() => { copied = true; setTimeout(() => copied = false, 2500); })" title="نسخ رابط التتبع" aria-label="نسخ رابط التتبع"
                                                     class="text-xs px-3 py-1 rounded-lg font-bold transition cursor-pointer"
                                                     :class="copied ? 'bg-emerald-700 text-white' : 'bg-slate-800 hover:bg-slate-900 text-white'">
                                                 <span x-show="!copied">نسخ</span>
