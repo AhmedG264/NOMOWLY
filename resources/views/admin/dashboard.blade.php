@@ -15,9 +15,9 @@
             </p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.campaigns.index') }}" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-md transition flex items-center gap-2">
-                <span>📢</span>
-                <span>إشراف وإدارة الحملات</span>
+            <a href="{{ route('admin.finance.index') }}" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-md transition flex items-center gap-2">
+                <span>💰</span>
+                <span>المركز المالي والمحافظ</span>
             </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -37,27 +37,83 @@
     @endif
 
     <!-- Key Navigation Hub Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Finance Card -->
+        <div class="bg-white p-6 rounded-3xl border border-emerald-200/80 shadow-xs flex flex-col justify-between">
+            <div class="space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-black">
+                    💰
+                </div>
+                <h3 class="text-base font-black text-slate-900">المركز المالي والمحافظ المحاسبية</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    دفتر القيود المحاسبي المزدوج (Double-Entry Ledger)، إدارة المحافظ متعددة العملات (8 عملات)، تدقيق ميزان المراجعة، وحجز ميزانيات الحملات بالضمان.
+                </p>
+            </div>
+            <div class="pt-5">
+                <a href="{{ route('admin.finance.index') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition">
+                    الدخول للمركز المالي ←
+                </a>
+            </div>
+        </div>
+
+        <!-- Audit Log Card -->
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
             <div class="space-y-3">
                 <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-black">
+                    🛡️
+                </div>
+                <h3 class="text-base font-black text-slate-900">سجل العمليات والمراقبة (Audit Log)</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    متابعة وتدقيق جميع العمليات الإدارية والأمنية والمالية، محاولات الدخول، وإسناد الأدوار، مع التصفية والبحث الكامل.
+                </p>
+            </div>
+            <div class="pt-5">
+                <a href="{{ route('admin.audit-logs.index') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black transition">
+                    سجل العمليات والمراقبة ←
+                </a>
+            </div>
+        </div>
+
+        <!-- RBAC Card -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div class="space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl font-black">
+                    🔑
+                </div>
+                <h3 class="text-base font-black text-slate-900">الأدوار والصلاحيات (Dynamic RBAC)</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    إدارة وتخصيص الأدوار، الصلاحيات الدقيقة، وحماية رتبة المدير العام من التعديل أو الحذف، مع ربط المستخدمين.
+                </p>
+            </div>
+            <div class="pt-5">
+                <a href="{{ route('admin.roles.index') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-black transition">
+                    إدارة الصلاحيات والأدوار ←
+                </a>
+            </div>
+        </div>
+
+        <!-- Campaigns Supervision Card -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div class="space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-black">
                     📢
                 </div>
                 <h3 class="text-base font-black text-slate-900">الإشراف على حملات المنصة</h3>
                 <p class="text-xs text-slate-600 leading-relaxed">
-                    مراجعة جميع الحملات المنشورة من قبل العلامات التجارية، تعديل حالات النشر (نشطة، متوقفة، مكتملة)، ومتابعة الطلبات.
+                    مراجعة جميع الحملات المنشورة من قبل العلامات التجارية، تعديل حالات النشر (نشطة، متوقفة، مكتملة)، ومتابعة العروض.
                 </p>
             </div>
             <div class="pt-5">
-                <a href="{{ route('admin.campaigns.index') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black transition">
+                <a href="{{ route('admin.campaigns.index') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-black transition">
                     إدارة الحملات العامة ←
                 </a>
             </div>
         </div>
 
+        <!-- Marketplace Card -->
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
             <div class="space-y-3">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-black">
+                <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-black">
                     🛍️
                 </div>
                 <h3 class="text-base font-black text-slate-900">سوق الحملات المباشر</h3>
@@ -72,6 +128,7 @@
             </div>
         </div>
 
+        <!-- Security Card -->
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
             <div class="space-y-3">
                 <div class="w-12 h-12 rounded-2xl bg-slate-50 text-slate-700 flex items-center justify-center text-xl font-black">

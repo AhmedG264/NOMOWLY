@@ -29,6 +29,24 @@
         </div>
     </div>
 
+    <!-- Marketer Navigation Tabs -->
+    <div class="flex items-center gap-2 border-b border-slate-200 pb-3 flex-wrap text-sm">
+        <a href="{{ route('marketer.campaigns.index') }}" class="px-4 py-2 rounded-xl font-black bg-teal-800 text-white shadow-xs">
+            حملاتي وأكواد التتبع
+        </a>
+        <a href="{{ route('marketer.wallet.index') }}" class="px-4 py-2 rounded-xl font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+            <span>💳</span>
+            <span>المحفظة والأرباح</span>
+        </a>
+        <a href="{{ route('marketer.plans.index') }}" class="px-4 py-2 rounded-xl font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+            <span>⭐</span>
+            <span>باقات الاشتراك والحملات المميزة</span>
+        </a>
+        <a href="{{ route('marketer.subscriptions.index') }}" class="px-4 py-2 rounded-xl font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+            سجل اشتراكاتي
+        </a>
+    </div>
+
     <!-- Status Alert -->
     @if (session('status'))
         <div class="rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-sm text-emerald-800 font-bold flex items-center gap-2">
@@ -147,11 +165,13 @@
                                 </h3>
 
                                 <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500">
-                                    <span class="text-emerald-700 font-bold">العمولة: {{ $app->campaign->commission_value }}</span>
+                                    <span class="text-emerald-700 font-bold">العمولة: {{ $app->termsVersion?->commission_value ?? $app->campaign->commission_value }}</span>
                                     <span>•</span>
-                                    <span>تاريخ التقديم: {{ $app->applied_at->format('Y-m-d') }}</span>
+                                    <span>فترة الكوكيز: {{ $app->termsVersion?->cookie_duration_days ?? $app->campaign->cookie_duration_days }} يوماً</span>
                                     <span>•</span>
-                                    <span>فترة الكوكيز: {{ $app->campaign->cookie_duration_days }} يوماً</span>
+                                    <span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold">
+                                        الإصدار التعاقدي: v{{ $app->termsVersion?->version_number ?? 1 }}
+                                    </span>
                                 </div>
                             </div>
 
@@ -159,6 +179,22 @@
                                 عرض تفاصيل الحملة والشروط ↗
                             </a>
                         </div>
+
+                        <!-- Newer Terms Consent Alert if campaign upgraded -->
+                        @if($app->isApproved() && $app->campaign->currentTermsVersion && $app->terms_version_id !== $app->campaign->current_terms_version_id)
+                            <div class="bg-indigo-50 rounded-2xl p-4 border border-indigo-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                                <div>
+                                    <span class="font-black text-indigo-900 block">📢 تم تحديث شروط هذه الحملة للإصدار (v{{ $app->campaign->currentTermsVersion->version_number }})</span>
+                                    <span class="text-indigo-800 text-[11px]">العمولة الجديدة: {{ $app->campaign->currentTermsVersion->commission_value }} ({{ $app->campaign->currentTermsVersion->commission_type?->label() }}). شروطك السابقة مضمونة حتى موافقتك.</span>
+                                </div>
+                                <form method="POST" action="{{ route('marketer.campaigns.accept-terms', [$app, $app->campaign->currentTermsVersion]) }}">
+                                    @csrf
+                                    <button type="submit" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold shadow-xs transition cursor-pointer">
+                                        الموافقة على الشروط الجديدة ✓
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
 
                         <!-- Approved Credentials Box -->
                         @if($app->isApproved())

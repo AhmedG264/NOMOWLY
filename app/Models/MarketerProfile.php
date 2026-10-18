@@ -57,4 +57,20 @@ class MarketerProfile extends Model
     {
         return $this->hasManyThrough(AttributionClick::class, CampaignApplication::class);
     }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(MarketerSubscription::class)->latest('created_at');
+    }
+
+    public function activeSubscription(): HasOne
+    {
+        return $this->hasOne(MarketerSubscription::class)
+            ->where('status', \App\Enums\SubscriptionStatus::ACTIVE)
+            ->where(function ($q) {
+                $q->whereNull('ends_at')
+                    ->orWhere('ends_at', '>', now());
+            })
+            ->latest('starts_at');
+    }
 }

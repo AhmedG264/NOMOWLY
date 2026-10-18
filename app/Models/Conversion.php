@@ -20,6 +20,7 @@ class Conversion extends Model
         'campaign_id',
         'campaign_application_id',
         'attribution_click_id',
+        'terms_version_id',
         'visitor_id',
         'external_order_id',
         'conversion_type',
@@ -31,6 +32,13 @@ class Conversion extends Model
         'occurred_at',
         'verified_at',
         'metadata',
+        'commission_terms_snapshot',
+        'fraud_risk_score',
+        'is_suspicious',
+        'fraud_signals',
+        'investigated_at',
+        'investigated_by_user_id',
+        'investigation_notes',
     ];
 
     protected function casts(): array
@@ -41,13 +49,23 @@ class Conversion extends Model
             'commission_value' => 'decimal:2',
             'occurred_at' => 'datetime',
             'verified_at' => 'datetime',
+            'investigated_at' => 'datetime',
             'metadata' => 'array',
+            'commission_terms_snapshot' => 'array',
+            'fraud_signals' => 'array',
+            'is_suspicious' => 'boolean',
+            'fraud_risk_score' => 'integer',
         ];
     }
 
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    public function termsVersion(): BelongsTo
+    {
+        return $this->belongsTo(CampaignTermsVersion::class, 'terms_version_id');
     }
 
     public function campaignApplication(): BelongsTo
@@ -58,6 +76,21 @@ class Conversion extends Model
     public function attributionClick(): BelongsTo
     {
         return $this->belongsTo(AttributionClick::class);
+    }
+
+    public function investigatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'investigated_by_user_id');
+    }
+
+    public function settlement(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(CommissionSettlement::class);
+    }
+
+    public function isSettled(): bool
+    {
+        return $this->settlement()->exists();
     }
 
     public function scopeApproved(Builder $query): Builder
@@ -75,6 +108,20 @@ class Conversion extends Model
         return $query->where('status', ConversionStatus::REJECTED);
     }
 
+    public function scopeSuspicious(Builder $query): Builder
+    {
+        return $query->where('is_suspicious', true);
+    }
+
+    public function scopePendingReview(Builder $query): Builder
+    {
+        return $query->where('status', ConversionStatus::PENDING)
+            ->where(function ($q) {
+                $q->where('is_suspicious', true)
+                  ->orWhere('fraud_risk_score', '>=', 40);
+            });
+    }
+
     public function isApproved(): bool
     {
         return $this->status === ConversionStatus::APPROVED;
@@ -88,5 +135,10 @@ class Conversion extends Model
     public function isRejected(): bool
     {
         return $this->status === ConversionStatus::REJECTED;
+    }
+
+    public function isSuspicious(): bool
+    {
+        return (bool) $this->is_suspicious;
     }
 }

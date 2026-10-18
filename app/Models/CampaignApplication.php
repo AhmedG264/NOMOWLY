@@ -18,6 +18,7 @@ class CampaignApplication extends Model
 
     protected $fillable = [
         'campaign_id',
+        'terms_version_id',
         'marketer_profile_id',
         'status',
         'pitch_note',
@@ -26,6 +27,7 @@ class CampaignApplication extends Model
         'tracking_link',
         'review_notes',
         'applied_at',
+        'accepted_terms_at',
         'reviewed_at',
     ];
 
@@ -35,6 +37,7 @@ class CampaignApplication extends Model
             'channel_urls' => 'array',
             'status' => CampaignApplicationStatus::class,
             'applied_at' => 'datetime',
+            'accepted_terms_at' => 'datetime',
             'reviewed_at' => 'datetime',
         ];
     }
@@ -42,6 +45,11 @@ class CampaignApplication extends Model
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    public function termsVersion(): BelongsTo
+    {
+        return $this->belongsTo(CampaignTermsVersion::class, 'terms_version_id');
     }
 
     public function marketerProfile(): BelongsTo

@@ -95,6 +95,19 @@ class CampaignPolicy
             return false;
         }
 
-        return !$campaign->hasAppliedBy($user->marketerProfile);
+        if ($campaign->hasAppliedBy($user->marketerProfile)) {
+            return false;
+        }
+
+        // If campaign is premium, check subscription entitlements
+        if ($campaign->isPremium()) {
+            $entitlementService = app(\App\Services\Subscription\SubscriptionEntitlementService::class);
+            $check = $entitlementService->canApply($user, $campaign);
+            if (!$check['allowed']) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -77,6 +77,14 @@ class RegisteredUserController extends Controller
                 'must_change_password' => false,
             ]);
 
+            // Dynamic RBAC: Attach corresponding role
+            $dynamicRole = \App\Models\Role::where('name', $role)->first();
+            if ($dynamicRole) {
+                $user->roles()->attach($dynamicRole->id, [
+                    'assigned_by' => null,
+                ]);
+            }
+
             if ($role === UserRole::BRAND->value) {
                 BrandProfile::create([
                     'user_id' => $user->id,

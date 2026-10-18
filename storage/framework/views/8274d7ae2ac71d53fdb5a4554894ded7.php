@@ -1,5 +1,5 @@
 <?php $__env->startSection('content'); ?>
-<div class="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+<div class="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8" x-data="{ rejectModalOpen: false, rejectActionUrl: '', externalOrderId: '' }">
     <!-- Header Banner -->
     <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-emerald-900/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -145,6 +145,13 @@
                                         <?php echo e($conv->status->label()); ?>
 
                                     </span>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($conv->is_suspicious): ?>
+                                        <div class="mt-1">
+                                            <span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                                                ⚠️ اشتباه أمني (خطورة: <?php echo e($conv->fraud_risk_score); ?>)
+                                            </span>
+                                        </div>
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($conv->rejection_reason): ?>
                                         <div class="text-[10px] text-rose-600 mt-1" title="<?php echo e($conv->rejection_reason); ?>">
                                             السبب: <?php echo e(Str::limit($conv->rejection_reason, 20)); ?>
@@ -163,17 +170,20 @@
                                                 </button>
                                             </form>
 
-                                            <!-- Reject Form -->
-                                            <form method="POST" action="<?php echo e(route('brand.conversions.reject', $conv->id)); ?>" onsubmit="return promptRejectReason(this);">
-                                                <?php echo csrf_field(); ?>
-                                                <input type="hidden" name="reason" value="طلب مسترجع أو غير مؤهل">
-                                                <button type="submit" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg text-[11px] font-bold transition cursor-pointer">
-                                                    رفض
-                                                </button>
-                                            </form>
+                                            <!-- Reject Button -->
+                                            <button type="button"
+                                                    @click="rejectModalOpen = true; rejectActionUrl = '<?php echo e(route('brand.conversions.reject', $conv->id)); ?>'; externalOrderId = '<?php echo e($conv->external_order_id); ?>'"
+                                                    class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg text-[11px] font-bold transition cursor-pointer">
+                                                رفض
+                                            </button>
                                         </div>
                                     <?php elseif($conv->status === \App\Enums\ConversionStatus::APPROVED): ?>
-                                        <span class="text-[11px] font-bold text-emerald-600">✓ مؤكد ومعتمد</span>
+                                        <div class="space-y-0.5">
+                                            <span class="text-[11px] font-bold text-emerald-600 block">✓ مؤكد ومعتمد</span>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($conv->isSettled()): ?>
+                                                <span class="text-[10px] text-slate-400 font-mono block">مسوى في المحفظة</span>
+                                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                        </div>
                                     <?php else: ?>
                                         <span class="text-[11px] text-slate-400">مكتمل</span>
                                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -190,18 +200,41 @@
             </div>
         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </div>
-</div>
 
-<script>
-function promptRejectReason(form) {
-    var reason = prompt("يرجى كتابة سبب رفض التحويل (مثال: طلب ملغي، مرتجع، عملية دفع غير مكتملة):", "طلب ملغي أو مسترجع");
-    if (!reason || reason.trim() === "") {
-        return false;
-    }
-    form.querySelector('input[name="reason"]').value = reason;
-    return true;
-}
-</script>
+    <!-- Reject Modal -->
+    <div x-show="rejectModalOpen"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+         style="display: none;">
+        <div @click.away="rejectModalOpen = false"
+             class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-right space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="text-base font-black text-rose-700">رفض تحويل مبيعات #<span x-text="externalOrderId"></span></h3>
+                <button type="button" @click="rejectModalOpen = false" class="text-slate-400 hover:text-slate-600">✕</button>
+            </div>
+            <form method="POST" :action="rejectActionUrl" class="space-y-4">
+                <?php echo csrf_field(); ?>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">سبب الرفض الموثق *</label>
+                    <textarea name="reason" required rows="3" placeholder="مثال: تم إرجاع الطلب، أو إلغاء الدفع من قبل العميل، أو عملية وهمية."
+                              class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none"></textarea>
+                </div>
+                <div class="flex items-center justify-end gap-3 pt-2">
+                    <button type="button" @click="rejectModalOpen = false"
+                            class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">
+                        إلغاء
+                    </button>
+                    <button type="submit"
+                            class="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black shadow-md cursor-pointer">
+                        تأكيد رفض التحويل
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /app/applet/resources/views/brand/conversions/index.blade.php ENDPATH**/ ?>

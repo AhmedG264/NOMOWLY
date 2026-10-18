@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="wkTbOpB2rtkizsBINXSOnF8Nrg8J9q5bJZDLe1Ok">
+
+    <title>منصة نمولي | Nomowly — سوق التسويق بالأداء واقتصاد صناع المحتوى العربي</title>
+    <meta name="description" content="نمولي (Nomowly) - سوق التسويق بالأداء في العالم العربي. نربط العلامات التجارية والمتاجر الإلكترونية بنخبة صناع المحتوى والمسوقين ومشتري الإعلانات، مع دفع مقابل المبيعات المؤكدة فقط.">
+
+    <!-- Open Graph / Social Meta -->
+    <meta property="og:title" content="منصة نمولي | Nomowly — سوق التسويق بالأداء العربي">
+    <meta property="og:description" content="اربط علامتك التجارية بنخبة صناع المحتوى والمسوقين.. وادفع فقط مقابل المبيعات المؤكدة (CPO/CPA).">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+    <meta name="theme-color" content="#059669">
+
+    <!-- Google Fonts: Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Styles & Scripts (Tailwind CSS + Alpine.js via Vite) -->
+    <link rel="preload" as="style" href="/build/assets/app-BhYREPDH.css" /><link rel="modulepreload" as="script" href="/build/assets/app-SeuWdjeY.js" /><link rel="stylesheet" href="/build/assets/app-BhYREPDH.css" data-navigate-track="reload" /><script type="module" src="/build/assets/app-SeuWdjeY.js" data-navigate-track="reload"></script></head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen antialiased flex flex-col justify-between selection:bg-emerald-500 selection:text-white" x-data="{ mobileMenuOpen: false }">
+    <!-- Header -->
+    <header class="border-b border-slate-200/80 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="h-20 flex items-center justify-between gap-4">
+                <!-- Brand Logo -->
+                <a href="http://localhost:3000" class="flex items-center gap-3 shrink-0 group">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black text-2xl shadow-md group-hover:shadow-emerald-500/25 transition">
+                        ن
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-2xl font-black text-slate-900 tracking-tight">نمولي</span>
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">Nomowly</span>
+                        </div>
+                        <span class="text-[11px] text-slate-500 font-semibold block -mt-0.5">سوق التسويق بالأداء العربي</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-1 xl:gap-2">
+                    <a href="http://localhost:3000"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        الرئيسية
+                    </a>
+                    <a href="http://localhost:3000/marketplace"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-emerald-700 bg-emerald-50/80">
+                        سوق الحملات
+                    </a>
+                    <a href="http://localhost:3000/for-brands"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        للعلامات التجارية
+                    </a>
+                    <a href="http://localhost:3000/for-marketers"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        للمسوقين والمبدعين
+                    </a>
+                    <a href="http://localhost:3000/how-it-works"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        كيف تعمل المنصة
+                    </a>
+                    <a href="http://localhost:3000/pricing"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        الأسعار
+                    </a>
+                </nav>
+
+                <!-- Auth / User CTA -->
+                <div class="hidden sm:flex items-center gap-3">
+                                            <a href="http://localhost:3000/login" class="text-sm font-bold text-slate-700 hover:text-emerald-700 px-3.5 py-2 rounded-xl hover:bg-slate-100 transition whitespace-nowrap">
+                            تسجيل الدخول
+                        </a>
+                        <a href="http://localhost:3000/register" class="text-sm font-black text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2.5 rounded-xl shadow-sm hover:shadow-emerald-600/20 transition whitespace-nowrap">
+                            ابدأ الآن مجاناً
+                        </a>
+                                    </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex sm:hidden items-center">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen"
+                            type="button"
+                            class="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden"
+                            aria-label="القائمة الرئيسية">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Dropdown -->
+            <div x-show="mobileMenuOpen"
+                 x-transition:enter="transition ease-out duration-150"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 class="lg:hidden pb-4 pt-2 border-t border-slate-200/70 space-y-1">
+                <a href="http://localhost:3000" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">الرئيسية</a>
+                <a href="http://localhost:3000/marketplace" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">سوق الحملات</a>
+                <a href="http://localhost:3000/for-brands" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">للعلامات التجارية</a>
+                <a href="http://localhost:3000/for-marketers" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">للمسوقين والمبدعين</a>
+                <a href="http://localhost:3000/how-it-works" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">كيف تعمل المنصة</a>
+                <a href="http://localhost:3000/pricing" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">الأسعار</a>
+
+                <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+                                            <a href="http://localhost:3000/login" class="text-center text-sm font-bold py-2 text-slate-700 hover:bg-slate-100 rounded-xl">تسجيل الدخول</a>
+                        <a href="http://localhost:3000/register" class="text-center text-sm font-black py-2.5 bg-emerald-600 text-white rounded-xl shadow-xs">ابدأ الآن مجاناً</a>
+                                    </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Slot -->
+    <main class="flex-grow">
+        
+        <div class="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <!-- Header -->
+    <div class="text-center max-w-3xl mx-auto space-y-4">
+        <span class="text-xs font-black text-emerald-800 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200/80">
+            سوق الحملات والشراكات التسويقية
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            استكشف حملات الأداء المتاحة للشراكة
+        </h1>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+            اكتشف فرص الحملات التسويقية في المنطقة — دليل حي يجمع حملات العلامات التجارية والمتاجر في السعودية، مصر، والإمارات. ابحث عن الحملة المناسبة لجمهورك وقدم طلبك للبدء في جني العمولات الموثقة.
+        </p>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-xs space-y-6">
+        <!-- Search bar -->
+        <form method="GET" action="http://localhost:3000/marketplace" class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-grow">
+                <input type="text"
+                       name="q"
+                       value=""
+                       placeholder="ابحث باسم العلامة التجارية، نوع الحملة، أو المجال..."
+                       class="w-full px-4 py-3.5 pr-11 rounded-2xl border border-slate-200 text-sm font-medium focus:outline-hidden focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20">
+                <span class="absolute right-4 top-4 text-slate-400">🔍</span>
+            </div>
+
+            <button type="submit"
+                    class="px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition cursor-pointer">
+                بحث في الحملات
+            </button>
+
+                    </form>
+
+        <!-- Category Filter Tabs -->
+        <div class="space-y-3">
+            <div>
+                <div class="text-xs font-bold text-slate-500 mb-2">القطاعات والمجالات:</div>
+                <div class="flex flex-wrap gap-2">
+                                            <a href="http://localhost:3000/marketplace?category=all"
+                           class="px-4 py-2 rounded-xl text-xs font-bold transition bg-emerald-600 text-white shadow-xs">
+                            جميع التصنيفات
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?category=fashion"
+                           class="px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            أزياء وموضة
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?category=perfumes"
+                           class="px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            عطور وتجميل
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?category=electronics"
+                           class="px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            إلكترونيات
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?category=health"
+                           class="px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            صحة ورشاقة
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?category=home"
+                           class="px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            مستلزمات منزل
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?category=kids"
+                           class="px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            أطفال وعائلة
+                        </a>
+                                    </div>
+            </div>
+
+            <!-- Country Filter Tabs -->
+            <div class="pt-2 border-t border-slate-100">
+                <div class="text-xs font-bold text-slate-500 mb-2">الدولة والسوق المستهدف:</div>
+                <div class="flex flex-wrap gap-2">
+                    <a href="http://localhost:3000/marketplace?country=all"
+                       class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 text-white">
+                        جميع الأسواق
+                    </a>
+                                            <a href="http://localhost:3000/marketplace?country=%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9"
+                           class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            السعودية
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?country=%D9%85%D8%B5%D8%B1"
+                           class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            مصر
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?country=%D8%A7%D9%84%D8%A5%D9%85%D8%A7%D8%B1%D8%A7%D8%AA"
+                           class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            الإمارات
+                        </a>
+                                            <a href="http://localhost:3000/marketplace?country=%D8%A7%D9%84%D9%83%D9%88%D9%8A%D8%AA"
+                           class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            الكويت
+                        </a>
+                                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campaigns Count & Info -->
+    <div class="flex items-center justify-between text-xs text-slate-500 font-medium">
+        <span>عرض <strong>12</strong> حملة متوافقة مع شروط البحث</span>
+        <span>تحديث مستمر للفرص والشراكات</span>
+    </div>
+
+    <!-- Campaigns Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Couture</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                موضة وأزياء
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-alaabayat-oalazyaaa-almlky-dmhtd" class="hover:text-emerald-700 transition">
+                                    حملة العبايات والأزياء الملكية
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                كوليكشن الأزياء الملكية مع عمولة 15% لكل عملية بيع ناجحة
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">السعودية · الإمارات</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">كود خصم حصري · رابط تتبع ذكي</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-alaabayat-oalazyaaa-almlky-dmhtd"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Brand Co 6acceb00d7de9</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                عطور وتجميل
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/summer-sale-campaign-6acceb0128edc-nqmaz" class="hover:text-emerald-700 transition">
+                                    Updated Summer Sale 6acceb01316a7
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                Updated description
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">مبلغ ثابت لكل طلب</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">السعودية</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">كود خصم حصري</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">45 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">50 SAR</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/summer-sale-campaign-6acceb0128edc-nqmaz"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Brand Co 6acceae93e920</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                عطور وتجميل
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/summer-sale-campaign-6acceae982561-6awsu" class="hover:text-emerald-700 transition">
+                                    Summer Sale Campaign 6acceae982561
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                Complete brand campaign description for test
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">السعودية · مصر</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">كود خصم حصري · رابط تتبع ذكي</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/summer-sale-campaign-6acceae982561-6awsu"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Edit Brand Co 1791756797</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                إلكترونيات وأجهزة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-lltaadyl-1791756797-3gmj7" class="hover:text-emerald-700 transition">
+                                    حملة معدلة بنجاح 1791756797
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                تم تحديث الوصف بنجاح وبشكل مؤكد.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">SA · AE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">COUPON · LINK</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">45 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">25%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-lltaadyl-1791756797-3gmj7"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Boutique 1791756784</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                أزياء وموضة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756784-oj32m" class="hover:text-emerald-700 transition">
+                                    حملة عبايات صيف 1791756784
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                حملة تسويقية لأحدث تشكيلة عبايات نسائية صيفية.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">SA · AE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">COUPON · LINK</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756784-oj32m"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Boutique 1791756732</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                أزياء وموضة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756732-5lhv7" class="hover:text-emerald-700 transition">
+                                    حملة عبايات صيف 1791756732
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                حملة تسويقية لأحدث تشكيلة عبايات نسائية صيفية.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">SA · AE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">COUPON · LINK</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756732-5lhv7"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Boutique 1791756703</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                أزياء وموضة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756703-poxvt" class="hover:text-emerald-700 transition">
+                                    حملة عبايات صيف 1791756703
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                حملة تسويقية لأحدث تشكيلة عبايات نسائية صيفية.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">SA · AE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">COUPON · LINK</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756703-poxvt"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Boutique 1791756691</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                أزياء وموضة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756691-cfwtz" class="hover:text-emerald-700 transition">
+                                    حملة عبايات صيف 1791756691
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                حملة تسويقية لأحدث تشكيلة عبايات نسائية صيفية.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">SA · AE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">COUPON · LINK</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756691-cfwtz"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Boutique 1791756666</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                أزياء وموضة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756666-ybya8" class="hover:text-emerald-700 transition">
+                                    حملة عبايات صيف 1791756666
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                حملة تسويقية لأحدث تشكيلة عبايات نسائية صيفية.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">SA · AE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">COUPON · LINK</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756666-ybya8"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Fashion LLC</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                أزياء وموضة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756632-8lhmm" class="hover:text-emerald-700 transition">
+                                    حملة عبايات صيف 1791756632
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                حملة ترويجية لتشكيلة الصيف بنظام التسويق بالأداء والعمولة المؤكدة لكل طلب.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">SA · AE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">COUPON · LINK</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756632-8lhmm"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Fashion LLC</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                أزياء وموضة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756622-ayoa1" class="hover:text-emerald-700 transition">
+                                    حملة عبايات صيف 1791756622
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                حملة ترويجية لتشكيلة الصيف بنظام التسويق بالأداء والعمولة المؤكدة لكل طلب.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">SA · AE</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">COUPON · LINK</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/hml-aabayat-syf-1791756622-ayoa1"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                                            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <!-- Top Metadata: Brand & Category -->
+                        <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
+                                <span class="font-black text-slate-900 text-sm">Sara Couture</span>
+                            </div>
+                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                أزياء وموضة
+                            </span>
+                        </div>
+
+                        <!-- Campaign Title & Description -->
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 leading-snug">
+                                <a href="http://localhost:3000/marketplace/sara-couture-fashion" class="hover:text-emerald-700 transition">
+                                    متجر سارة للأزياء والعبايات الشرقية الفاخرة
+                                </a>
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mt-1 line-clamp-2">
+                                كوليكشن عبايات وأزياء راقية في السعودية والخليج. معدل تحويل عالي مع سلة تسوق مرتفعة وتصميمات حصرية.
+                            </p>
+                        </div>
+
+                        <!-- Highlights Box -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الهدف والنموذج:</span>
+                                <span class="font-bold text-slate-800">نسبة من المبيعة (CPO)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">الأسواق المستهدفة:</span>
+                                <span class="font-bold text-slate-800">السعودية · الإمارات · الكويت</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">قنوات التتبع:</span>
+                                <span class="font-bold text-slate-700">كود خصم حصري · رابط تتبع ذكي</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 font-medium">فترة إسناد الكوكيز:</span>
+                                <span class="font-bold text-slate-700">30 يوماً</span>
+                            </div>
+                        </div>
+
+                        <!-- Compensation -->
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs">
+                            <span class="text-slate-600 font-medium">العائد المرتبط بالنتيجة:</span>
+                            <span class="font-black text-emerald-700 text-sm">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="pt-5">
+                        <a href="http://localhost:3000/marketplace/sara-couture-fashion"
+                           class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                            عرض تفاصيل الحملة والتقديم ←
+                        </a>
+                    </div>
+                </div>
+                    </div>
+
+                    <div class="pt-4">
+                <nav role="navigation" aria-label="Pagination Navigation">
+
+        <div class="flex gap-2 items-center justify-between sm:hidden">
+
+                            <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 cursor-not-allowed leading-5 rounded-md dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600">
+                    &laquo; Previous
+                </span>
+            
+                            <a href="http://localhost:3000/marketplace?page=2" rel="next" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-200">
+                    Next &raquo;
+                </a>
+            
+        </div>
+
+        <div class="hidden sm:flex-1 sm:flex sm:gap-2 sm:items-center sm:justify-between">
+
+            <div>
+                <p class="text-sm text-gray-700 leading-5 dark:text-gray-600">
+                    Showing
+                                            <span class="font-medium">1</span>
+                        to
+                        <span class="font-medium">12</span>
+                                        of
+                    <span class="font-medium">17</span>
+                    results
+                </p>
+            </div>
+
+            <div>
+                <span class="inline-flex rtl:flex-row-reverse shadow-sm rounded-md">
+
+                    
+                                            <span aria-disabled="true" aria-label="&amp;laquo; Previous">
+                            <span class="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-not-allowed rounded-l-md leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" aria-hidden="true">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        </span>
+                    
+                    
+                                            
+                        
+                        
+                                                                                                                        <span aria-current="page">
+                                        <span class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 cursor-default leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">1</span>
+                                    </span>
+                                                                                                                                <a href="http://localhost:3000/marketplace?page=2" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 2">
+                                        2
+                                    </a>
+                                                                                                        
+                    
+                                            <a href="http://localhost:3000/marketplace?page=2" rel="next" class="inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:active:bg-gray-700 dark:focus:border-blue-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-300" aria-label="Next &amp;raquo;">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                                    </span>
+            </div>
+        </div>
+    </nav>
+
+            </div>
+            
+    <!-- Marketplace Callout for Brands -->
+    <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-right">
+            <h3 class="text-xl font-black">هل تمتلك متجراً أو علامة تجارية وترغب بإطلاق حملتك؟</h3>
+            <p class="text-xs text-slate-400 max-w-xl">
+                انضم إلى نمولي اليوم، وحدد شروط الأداء والعمولات، وافتح الباب أمام شبكة معتمدة من المسوقين وصناع المحتوى بدون أي مخاطرة مالية مسبقة.
+            </p>
+        </div>
+        <a href="http://localhost:3000/register?role=BRAND"
+           class="px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shrink-0 transition">
+            سجل علامتك التجارية وأنشئ حملتك
+        </a>
+    </div>
+</div>
+    </main>
+
+    <!-- Professional Nomowly Footer -->
+    <footer class="border-t border-slate-200 bg-white pt-16 pb-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+                <!-- Brand Summary -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black text-xl shadow-md">
+                            ن
+                        </div>
+                        <div>
+                            <span class="text-2xl font-black text-slate-900 tracking-tight block">نمولي</span>
+                            <span class="text-xs text-emerald-700 font-bold block -mt-1 uppercase tracking-wider">Nomowly</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6 font-normal max-w-md">
+                        المنصة الإقليمية الرائدة للتسويق بالأداء واقتصاد صناع المحتوى في مصر ودول الخليج العربي. نربط المتاجر والعلامات التجارية الطموحة بنخبة المسوقين ومشتري الإعلانات لتحقيق مبيعات مؤكدة، بدفع حصري مقابل النتائج المحققة.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs text-slate-500">
+                        <span class="font-bold text-slate-700">الأسواق النشطة:</span>
+                        <span>مصر</span>
+                        <span>·</span>
+                        <span>السعودية</span>
+                        <span>·</span>
+                        <span>الإمارات</span>
+                        <span>·</span>
+                        <span>الكويت</span>
+                        <span>·</span>
+                        <span>قطر</span>
+                        <span>·</span>
+                        <span>عمان</span>
+                        <span>·</span>
+                        <span>البحرين</span>
+                    </div>
+                </div>
+
+                <!-- Column: For Brands -->
+                <div>
+                    <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4">للعلامات التجارية</h3>
+                    <ul class="space-y-2.5 text-sm text-slate-600 font-medium">
+                        <li><a href="http://localhost:3000/for-brands" class="hover:text-emerald-700 transition">أطلق حملتك الأولى</a></li>
+                        <li><a href="http://localhost:3000/marketplace" class="hover:text-emerald-700 transition">تصفح سوق الحملات</a></li>
+                        <li><a href="http://localhost:3000/pricing" class="hover:text-emerald-700 transition">نموذج الدفع بالأداء (CPO)</a></li>
+                        <li><a href="http://localhost:3000/register?role=BRAND" class="text-emerald-700 font-bold hover:underline">سجل كعلامة تجارية</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column: For Marketers -->
+                <div>
+                    <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4">للمسوقين والمبدعين</h3>
+                    <ul class="space-y-2.5 text-sm text-slate-600 font-medium">
+                        <li><a href="http://localhost:3000/for-marketers" class="hover:text-emerald-700 transition">دليل صناع المحتوى</a></li>
+                        <li><a href="http://localhost:3000/for-marketers#media-buyers" class="hover:text-emerald-700 transition">برامج مشتري الإعلانات</a></li>
+                        <li><a href="http://localhost:3000/marketplace" class="hover:text-emerald-700 transition">تصفح فرص الحملات</a></li>
+                        <li><a href="http://localhost:3000/register?role=MARKETER" class="text-emerald-700 font-bold hover:underline">انضم كصانع محتوى / مسوق</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column: Platform & Help -->
+                <div>
+                    <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4">المنصة والمساندة</h3>
+                    <ul class="space-y-2.5 text-sm text-slate-600 font-medium">
+                        <li><a href="http://localhost:3000/how-it-works" class="hover:text-emerald-700 transition">كيف تعمل نمولي</a></li>
+                        <li><a href="http://localhost:3000/pricing" class="hover:text-emerald-700 transition">الأسعار والعمولات</a></li>
+                        <li><a href="http://localhost:3000/login" class="hover:text-emerald-700 transition">تسجيل الدخول</a></li>
+                        <li class="pt-2 text-xs text-slate-500">
+                            الدعم والاستفسارات:<br>
+                            <a href="mailto:hello@nomowly.com" class="font-bold text-slate-700 hover:text-emerald-700">hello@nomowly.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Subfooter -->
+            <div class="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>© 2026 منصة نمولي (Nomowly). جميع الحقوق محفوظة — منصة الأداء المعتمدة للشرق الأوسط.</p>
+                <div class="flex items-center gap-6">
+                    <span class="inline-flex items-center gap-1.5 text-emerald-700 font-bold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>السوق متاح والفرص نشطة</span>
+                    </span>
+                    <span>العملات الصريحة: EGP · SAR · AED · KWD · QAR · OMR · BHD</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

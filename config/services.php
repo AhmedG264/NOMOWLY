@@ -35,4 +35,21 @@ return [
         ],
     ],
 
+    'moyasar' => [
+        'api_key' => env('MOYASAR_API_KEY'),
+        'publishable_key' => env('MOYASAR_PUBLISHABLE_KEY'),
+        'webhook_secret' => env('MOYASAR_WEBHOOK_SECRET'),
+    ],
+
+    'tap' => [
+        'secret_key' => env('TAP_SECRET_KEY'),
+        'public_key' => env('TAP_PUBLIC_KEY'),
+        'webhook_secret' => env('TAP_WEBHOOK_SECRET'),
+    ],
+
+    'fake_gateway' => [
+        'enabled' => env('FAKE_PAYMENT_GATEWAY_ENABLED', true),
+        'secret' => env('FAKE_PAYMENT_GATEWAY_SECRET', 'sandbox_secret_nomowly_key'),
+    ],
+
 ];

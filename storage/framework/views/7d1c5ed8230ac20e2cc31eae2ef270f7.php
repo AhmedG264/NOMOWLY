@@ -137,6 +137,15 @@
                                     <?php echo e($campaign->category); ?>
 
                                 </span>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($campaign->isTermsLocked()): ?>
+                                    <span class="px-2 py-0.5 rounded-md text-[11px] font-black bg-amber-50 text-amber-700 border border-amber-200">
+                                        🔒 شروط مثبتة (v<?php echo e($campaign->currentTermsVersion?->version_number ?? 1); ?>)
+                                    </span>
+                                <?php else: ?>
+                                    <span class="px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        🔓 شروط أولية (v1)
+                                    </span>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($campaign->badge): ?>
                                     <span class="px-2 py-0.5 rounded-md text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
                                         ★ <?php echo e($campaign->badge); ?>
@@ -168,6 +177,11 @@
 
                         <!-- Actions & Applicants count -->
                         <div class="flex flex-wrap items-center gap-2 shrink-0">
+                            <a href="<?php echo e(route('brand.campaigns.terms', $campaign)); ?>" class="px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-black transition flex items-center gap-1">
+                                <span>📜</span>
+                                <span>الشروط (v<?php echo e($campaign->currentTermsVersion?->version_number ?? 1); ?>)</span>
+                            </a>
+
                             <a href="<?php echo e(route('brand.campaigns.applications', $campaign)); ?>" class="px-4 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 text-xs font-black transition flex items-center gap-1.5">
                                 <span>المتقدمين:</span>
                                 <span class="px-1.5 py-0.5 bg-teal-200/80 rounded-md text-[11px]"><?php echo e($campaign->applications_count); ?></span>

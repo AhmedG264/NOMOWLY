@@ -11,6 +11,8 @@ use App\Models\AttributionClick;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
 use App\Models\Conversion;
+use App\Services\Fraud\FraudDetectionService;
+use App\Services\Math\MoneyMath;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -20,6 +22,12 @@ class AttributionService
      * Cookie name for privacy-conscious first-party visitor identification
      */
     public const VISITOR_COOKIE = 'nmw_vid';
+
+    public function __construct(
+        protected ?FraudDetectionService $fraudService = null
+    ) {
+        $this->fraudService = $this->fraudService ?: app(FraudDetectionService::class);
+    }
 
     /**
      * Record a click event and prepare attribution session
@@ -74,7 +82,7 @@ class AttributionService
         }
 
         // 4. Session Identification
-        $sessionId = $request->session()->getId() ?: ('sid_' . Str::random(32));
+        $sessionId = $request->hasSession() ? ($request->session()->getId() ?: ('sid_' . Str::random(32))) : ('sid_' . Str::random(32));
 
         // 5. Privacy-preserving hashing of IP and User-Agent
         $clientIp = $request->ip() ?: '127.0.0.1';
@@ -93,10 +101,15 @@ class AttributionService
             $destinationUrl = route('marketplace.show', $campaign->slug);
         }
 
-        // 8. Record Attribution Click Entity
+        // 8. Resolve Terms Version and Lock Campaign Terms
+        $termsVersionId = $application->terms_version_id ?: $campaign->current_terms_version_id;
+        $campaign->lockTerms('تم تثبيت الشروط التعاقدية للحملة تلقائياً لتسجيل أول نقرة إسناد ترويجية.');
+
+        // 9. Record Attribution Click Entity
         $click = AttributionClick::create([
             'campaign_id' => $campaign->id,
             'campaign_application_id' => $application->id,
+            'terms_version_id' => $termsVersionId,
             'tracking_code' => $application->tracking_code,
             'tracking_link' => $application->tracking_link,
             'visitor_id' => $visitorId,
@@ -110,7 +123,7 @@ class AttributionService
             'created_at' => now(),
         ]);
 
-        // 9. Audit Logging
+        // 10. Audit Logging
         AuditService::log(
             action: AuditAction::ATTRIBUTION_CLICK_RECORDED,
             userId: null,
@@ -202,19 +215,32 @@ class AttributionService
     }
 
     /**
-     * Calculate commission based on campaign compensation model
+     * Calculate commission based on campaign or terms version compensation model with exact MoneyMath arithmetic
      */
-    public function calculateCommission(Campaign $campaign, float $orderValue): float
+    public function calculateCommission(Campaign|\App\Models\CampaignTermsVersion $terms, float|string $orderValue): float
     {
-        $rateOrAmount = (float) $campaign->commission_value;
+        $orderValueStr = MoneyMath::format((string) $orderValue);
+        $rateOrAmount = MoneyMath::format((string) $terms->commission_value);
+        $type = $terms->commission_type instanceof CampaignCommissionType
+            ? $terms->commission_type
+            : CampaignCommissionType::from((string) $terms->commission_type);
 
-        return match ($campaign->commission_type) {
-            CampaignCommissionType::PERCENTAGE_CPO => round($orderValue * ($rateOrAmount / 100), 2),
-            CampaignCommissionType::FIXED_PER_ORDER => round($rateOrAmount, 2),
-            CampaignCommissionType::CPA_ACTION => round($rateOrAmount, 2),
-            CampaignCommissionType::UGC_FLAT_FEE => round($rateOrAmount, 2),
-            CampaignCommissionType::HYBRID => round($rateOrAmount, 2),
+        $calculated = match ($type) {
+            CampaignCommissionType::PERCENTAGE_CPO => MoneyMath::format(
+                MoneyMath::div(
+                    MoneyMath::mul($orderValueStr, $rateOrAmount, 4),
+                    '100',
+                    4
+                ),
+                2
+            ),
+            CampaignCommissionType::FIXED_PER_ORDER,
+            CampaignCommissionType::CPA_ACTION,
+            CampaignCommissionType::UGC_FLAT_FEE,
+            CampaignCommissionType::HYBRID => MoneyMath::format($rateOrAmount, 2),
         };
+
+        return (float) $calculated;
     }
 
     /**
@@ -252,11 +278,15 @@ class AttributionService
         $campaignApplicationId = null;
         $attributionClickId = null;
         $commissionValue = 0.00;
+        $termsVersion = null;
+        $resolvedApplication = null;
 
         if ($click) {
             $campaignApplicationId = $click->campaign_application_id;
             $attributionClickId = $click->id;
-            $commissionValue = $this->calculateCommission($campaign, (float) $data['order_value']);
+            $resolvedApplication = $click->campaignApplication;
+            $termsVersion = $click->termsVersion ?: ($click->campaignApplication?->termsVersion ?: $campaign->currentTermsVersion);
+            $commissionValue = $this->calculateCommission($termsVersion ?: $campaign, (string) $data['order_value']);
         } elseif (!empty($trackingCode)) {
             // Direct promo code attribution even if click was not tracked
             $normalizedCode = Str::upper(trim($trackingCode));
@@ -267,30 +297,84 @@ class AttributionService
 
             if ($application) {
                 $campaignApplicationId = $application->id;
-                $commissionValue = $this->calculateCommission($campaign, (float) $data['order_value']);
+                $resolvedApplication = $application;
+                $termsVersion = $application->termsVersion ?: $campaign->currentTermsVersion;
+                $commissionValue = $this->calculateCommission($termsVersion ?: $campaign, (string) $data['order_value']);
             }
+        }
+
+        if (!$termsVersion) {
+            $termsVersion = $campaign->currentTermsVersion;
         }
 
         $currency = $data['currency'] ?? ($campaign->currencies[0] ?? 'SAR');
         $occurredAt = !empty($data['occurred_at']) ? \Carbon\Carbon::parse($data['occurred_at']) : now();
 
-        // 4. Create Conversion
-        $conversion = Conversion::create([
-            'campaign_id' => $campaign->id,
-            'campaign_application_id' => $campaignApplicationId,
-            'attribution_click_id' => $attributionClickId,
-            'visitor_id' => $visitorId ?: ($click?->visitor_id),
-            'external_order_id' => $externalOrderId,
-            'conversion_type' => $data['conversion_type'] ?? 'ORDER',
-            'status' => ConversionStatus::PENDING,
-            'order_value' => $data['order_value'],
-            'currency' => $currency,
-            'commission_value' => $commissionValue,
-            'occurred_at' => $occurredAt,
-            'metadata' => $data['metadata'] ?? [],
-        ]);
+        // 4. Construct Immutable Terms Snapshot
+        $commissionTypeStr = $termsVersion
+            ? ($termsVersion->commission_type instanceof CampaignCommissionType ? $termsVersion->commission_type->value : (string) $termsVersion->commission_type)
+            : ($campaign->commission_type instanceof CampaignCommissionType ? $campaign->commission_type->value : (string) $campaign->commission_type);
 
-        // 5. Audit Trail
+        $termsSnapshot = [
+            'terms_version_id' => $termsVersion?->id,
+            'version_number' => $termsVersion?->version_number ?? 1,
+            'commission_type' => $commissionTypeStr,
+            'commission_value' => (string) ($termsVersion?->commission_value ?? $campaign->commission_value),
+            'currency' => $currency,
+            'cookie_duration_days' => (int) ($termsVersion?->cookie_duration_days ?? $campaign->cookie_duration_days),
+            'order_value' => (string) $data['order_value'],
+            'calculated_commission' => (string) (float) $commissionValue,
+            'calculated_at' => now()->toIso8601String(),
+        ];
+
+        // 5. Automatically Lock Campaign Terms
+        $campaign->lockTerms('تم تثبيت الشروط التعاقدية للحملة تلقائياً لتسجيل تحويل مبيعات.');
+
+        // 6. Phase 9: Evaluate Fraud Detection Rules
+        $fraudEval = $this->fraudService->evaluate(
+            campaign: $campaign,
+            click: $click,
+            application: $resolvedApplication,
+            orderValue: (string) $data['order_value'],
+            visitorId: $visitorId ?: ($click?->visitor_id),
+            occurredAt: $occurredAt
+        );
+
+        // 7. Create Conversion Entity with race condition protection
+        try {
+            $conversion = Conversion::create([
+                'campaign_id' => $campaign->id,
+                'campaign_application_id' => $campaignApplicationId,
+                'attribution_click_id' => $attributionClickId,
+                'terms_version_id' => $termsVersion?->id,
+                'visitor_id' => $visitorId ?: ($click?->visitor_id),
+                'external_order_id' => $externalOrderId,
+                'conversion_type' => $data['conversion_type'] ?? 'ORDER',
+                'status' => ConversionStatus::PENDING,
+                'order_value' => MoneyMath::format((string) $data['order_value'], 2),
+                'currency' => $currency,
+                'commission_value' => MoneyMath::format((string) $commissionValue, 2),
+                'occurred_at' => $occurredAt,
+                'metadata' => $data['metadata'] ?? [],
+                'commission_terms_snapshot' => $termsSnapshot,
+                'fraud_risk_score' => $fraudEval['risk_score'],
+                'is_suspicious' => $fraudEval['is_suspicious'],
+                'fraud_signals' => $fraudEval['signals'],
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Concurrent race condition: external order was just inserted by another thread
+            $existing = Conversion::where('campaign_id', $campaign->id)
+                ->where('external_order_id', $externalOrderId)
+                ->first();
+
+            if ($existing) {
+                return $existing;
+            }
+
+            throw $e;
+        }
+
+        // 8. Audit Trail
         AuditService::log(
             action: AuditAction::CONVERSION_RECEIVED,
             userId: null,
@@ -302,8 +386,27 @@ class AttributionService
                 'external_order_id' => $conversion->external_order_id,
                 'order_value' => $conversion->order_value,
                 'currency' => $conversion->currency,
+                'fraud_risk_score' => $conversion->fraud_risk_score,
+                'is_suspicious' => $conversion->is_suspicious,
             ]
         );
+
+        if ($conversion->is_suspicious) {
+            AuditService::log(
+                action: AuditAction::CONVERSION_FLAGGED_SUSPICIOUS,
+                userId: null,
+                entityType: 'Conversion',
+                entityId: $conversion->id,
+                payloadDiff: [
+                    'conversion_id' => $conversion->id,
+                    'risk_score' => $conversion->fraud_risk_score,
+                    'signals_count' => count($conversion->fraud_signals ?? []),
+                    'signals' => $conversion->fraud_signals,
+                ],
+                status: 'SUSPICIOUS',
+                reason: 'تم رصد إشارات اشتباه احتيال في التحويل وإدراجه للمراجعة والتدقيق الإداري.'
+            );
+        }
 
         if ($campaignApplicationId) {
             AuditService::log(

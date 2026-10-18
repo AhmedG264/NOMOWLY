@@ -20,6 +20,7 @@ class AttributionClick extends Model
     protected $fillable = [
         'campaign_id',
         'campaign_application_id',
+        'terms_version_id',
         'tracking_code',
         'tracking_link',
         'visitor_id',
@@ -43,6 +44,11 @@ class AttributionClick extends Model
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    public function termsVersion(): BelongsTo
+    {
+        return $this->belongsTo(CampaignTermsVersion::class, 'terms_version_id');
     }
 
     public function campaignApplication(): BelongsTo

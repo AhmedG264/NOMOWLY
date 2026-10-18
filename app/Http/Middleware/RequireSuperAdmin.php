@@ -24,7 +24,7 @@ class RequireSuperAdmin
             return redirect()->route('login');
         }
 
-        if ($user->role !== UserRole::SUPER_ADMIN) {
+        if (! $user->isSuperAdmin()) {
             AuditService::log(
                 action: AuditAction::UNAUTHORIZED_ACCESS_ATTEMPT,
                 userId: $user->id,
@@ -32,8 +32,10 @@ class RequireSuperAdmin
                 entityId: $request->path(),
                 payloadDiff: [
                     'attempted_path' => $request->path(),
-                    'user_role' => $user->role->value,
-                ]
+                    'user_role' => $user->role instanceof UserRole ? $user->role->value : (string) $user->role,
+                ],
+                status: 'UNAUTHORIZED',
+                reason: 'محاولة وصول غير مصرح بها إلى منطقة الإدارة العليا'
             );
 
             abort(403, 'غير مصرح بالوصول إلى منطقة إدارة النظام.');

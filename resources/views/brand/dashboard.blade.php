@@ -16,9 +16,13 @@
             </p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('brand.campaigns.index') }}" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-md transition flex items-center gap-2">
+            <a href="{{ route('brand.wallet.index') }}" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-md transition flex items-center gap-2">
+                <span>💳</span>
+                <span>المحفظة والميزانيات</span>
+            </a>
+            <a href="{{ route('brand.campaigns.index') }}" class="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs sm:text-sm font-bold border border-white/20 transition flex items-center gap-2">
                 <span>📢</span>
-                <span>إدارة الحملات والطلبات</span>
+                <span>إدارة الحملات</span>
             </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -38,10 +42,28 @@
     @endif
 
     <!-- Key Navigation Hub Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Brand Wallet Card -->
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
             <div class="space-y-3">
                 <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-black">
+                    💳
+                </div>
+                <h3 class="text-base font-black text-slate-900">المحفظة المالية والضمان</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    متابعة الأرصدة المتاحة بـ 8 عملات معزولة، وميزانيات الحملات المحجوزة بالضمان (Escrow)، وكشف الحركات المحاسبية.
+                </p>
+            </div>
+            <div class="pt-5">
+                <a href="{{ route('brand.wallet.index') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition">
+                    محفظة المتجر ←
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div class="space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-black">
                     📢
                 </div>
                 <h3 class="text-base font-black text-slate-900">الحملات الإعلانية والتسويقية</h3>
@@ -50,8 +72,8 @@
                 </p>
             </div>
             <div class="pt-5 flex items-center gap-2">
-                <a href="{{ route('brand.campaigns.index') }}" class="w-full text-center py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition">
-                    عرض الحملات ←
+                <a href="{{ route('brand.campaigns.index') }}" class="w-full text-center py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black transition">
+                    الحملات ←
                 </a>
                 <a href="{{ route('brand.campaigns.create') }}" class="text-center py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition shrink-0">
                     + جديدة
@@ -87,7 +109,7 @@
                 </p>
             </div>
             <div class="pt-5">
-                <a href="{{ route('marketplace') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black transition">
+                <a href="{{ route('marketplace') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-black transition">
                     استعراض السوق ←
                 </a>
             </div>

@@ -128,6 +128,9 @@ class CampaignController extends Controller
             'starts_at' => now(),
         ]);
 
+        // Phase 7: Create initial terms version v1
+        app(\App\Services\Campaign\CampaignTermsService::class)->createInitialVersion($campaign, $request->user());
+
         AuditService::log(
             AuditAction::CAMPAIGN_CREATED,
             $request->user()->id,
@@ -183,7 +186,8 @@ class CampaignController extends Controller
 
         $oldData = $campaign->only(['title', 'status', 'commission_value']);
 
-        $campaign->update([
+        // Phase 7: Delegate update to CampaignTermsService to strictly enforce terms locking
+        app(\App\Services\Campaign\CampaignTermsService::class)->updateUnlockedTerms($campaign, [
             'title' => $validated['title'],
             'category' => $validated['category'],
             'category_slug' => Str::slug($validated['category']),
@@ -202,15 +206,7 @@ class CampaignController extends Controller
             'destination_url' => $validated['destination_url'] ?? null,
             'badge' => $validated['badge'] ?? null,
             'status' => $validated['status'],
-        ]);
-
-        AuditService::log(
-            AuditAction::CAMPAIGN_UPDATED,
-            $request->user()->id,
-            'Campaign',
-            $campaign->id,
-            ['old' => $oldData, 'new' => $campaign->only(['title', 'status', 'commission_value'])]
-        );
+        ], $request->user());
 
         return redirect()->route('brand.campaigns.index')
             ->with('status', 'تم تحديث بيانات الحملة التسويقية بنجاح.');
@@ -281,18 +277,29 @@ class CampaignController extends Controller
             $application->reviewed_at = now();
             $application->review_notes = $validated['review_notes'] ?? null;
 
+            // Phase 7: Bind application to current terms version if not already bound
+            if (empty($application->terms_version_id)) {
+                $application->terms_version_id = $campaign->current_terms_version_id;
+                $application->accepted_terms_at = now();
+            }
+
             if (!empty($validated['tracking_code'])) {
                 $application->tracking_code = Str::upper($validated['tracking_code']);
             }
             $application->generateTrackingCredentials();
             $application->save();
 
+            // Phase 7: Automatically lock campaign terms upon approving first creator
+            $campaign->lockTerms('تم تثبيت الشروط التعاقدية للحملة تلقائياً لاعتماد أول صانع محتوى / مسوق.');
+
             AuditService::log(
-                AuditAction::CAMPAIGN_APPLICATION_APPROVED,
-                $request->user()->id,
-                'CampaignApplication',
-                $application->id,
-                ['tracking_code' => $application->tracking_code]
+                action: AuditAction::CAMPAIGN_APPLICATION_APPROVED,
+                userId: $request->user()->id,
+                entityType: 'CampaignApplication',
+                entityId: $application->id,
+                payloadDiff: ['tracking_code' => $application->tracking_code],
+                status: 'APPROVED',
+                reason: $validated['review_notes'] ?? 'تم اعتماد المسوق وتوليد كود التتبع'
             );
 
             return back()->with('status', 'تم اعتماد صانع المحتوى بنجاح وتوليد كود التتبع: ' . $application->tracking_code);
@@ -303,14 +310,89 @@ class CampaignController extends Controller
             $application->save();
 
             AuditService::log(
-                AuditAction::CAMPAIGN_APPLICATION_REJECTED,
-                $request->user()->id,
-                'CampaignApplication',
-                $application->id,
-                ['notes' => $application->review_notes]
+                action: AuditAction::CAMPAIGN_APPLICATION_REJECTED,
+                userId: $request->user()->id,
+                entityType: 'CampaignApplication',
+                entityId: $application->id,
+                payloadDiff: ['notes' => $application->review_notes],
+                status: 'REJECTED',
+                reason: $application->review_notes
             );
 
             return back()->with('status', 'تم رفض طلب صانع المحتوى وتحديث الحالة.');
         }
+    }
+
+    /**
+     * View campaign terms versions and change request history.
+     */
+    public function terms(Campaign $campaign): View
+    {
+        Gate::authorize('update', $campaign);
+
+        $campaign->load(['brandProfile', 'currentTermsVersion']);
+        $versions = $campaign->termsVersions()->latest('version_number')->get();
+        $changeRequests = $campaign->changeRequests()->with(['requestedBy', 'reviewedBy'])->latest()->get();
+
+        return view('brand.campaigns.terms', compact('campaign', 'versions', 'changeRequests'));
+    }
+
+    /**
+     * Show form to create a new change request.
+     */
+    public function createChangeRequest(Campaign $campaign): View
+    {
+        Gate::authorize('update', $campaign);
+
+        $currentVersion = $campaign->currentTermsVersion;
+        if (!$currentVersion) {
+            $currentVersion = app(\App\Services\Campaign\CampaignTermsService::class)->createInitialVersion($campaign);
+        }
+
+        return view('brand.campaigns.change-request', compact('campaign', 'currentVersion'));
+    }
+
+    /**
+     * Store a newly submitted change request.
+     */
+    public function storeChangeRequest(Request $request, Campaign $campaign): RedirectResponse
+    {
+        Gate::authorize('update', $campaign);
+
+        $validated = $request->validate([
+            'reason' => ['required', 'string', 'min:5', 'max:1000'],
+            'scope' => ['required', 'string', 'in:' . implode(',', \App\Enums\CampaignTermsChangeScope::values())],
+            'proposed_effective_from' => ['nullable', 'date'],
+            'commission_type' => ['nullable', 'string', 'in:' . implode(',', CampaignCommissionType::values())],
+            'commission_value' => ['nullable', 'string', 'max:100'],
+            'cookie_duration_days' => ['nullable', 'integer', 'min:1', 'max:365'],
+            'currency' => ['nullable', 'string', 'max:10'],
+            'conversion_qualification_rules' => ['nullable', 'string', 'max:1000'],
+            'approval_rules' => ['nullable', 'string', 'max:1000'],
+            'cancellation_refund_rules' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $proposedTerms = array_filter([
+            'commission_type' => $validated['commission_type'] ?? null,
+            'commission_value' => $validated['commission_value'] ?? null,
+            'cookie_duration_days' => $validated['cookie_duration_days'] ?? null,
+            'currency' => $validated['currency'] ?? null,
+            'conversion_qualification_rules' => $validated['conversion_qualification_rules'] ?? null,
+            'approval_rules' => $validated['approval_rules'] ?? null,
+            'cancellation_refund_rules' => $validated['cancellation_refund_rules'] ?? null,
+        ], fn ($v) => $v !== null && $v !== '');
+
+        $service = app(\App\Services\Campaign\CampaignTermsService::class);
+        $service->createChangeRequest(
+            $campaign,
+            $proposedTerms,
+            $validated['reason'],
+            $validated['scope'],
+            $validated['proposed_effective_from'] ?? null,
+            $request->user()
+        );
+
+        return redirect()->route('brand.campaigns.terms', $campaign)
+            ->with('status', 'تم رفع طلب تعديل شروط الحملة بنجاح، وسيقوم فريق الإدارة بمراجعته وتدقيقه.');
     }
 }

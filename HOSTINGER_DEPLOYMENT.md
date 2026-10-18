@@ -223,7 +223,88 @@ This automatically runs:
 
 ---
 
-## 12. VERIFICATION & LAUNCH CHECKLIST
+---
+
+## 12. FRONTEND ASSET COMPILATION (NO NODE ON SHARED HOSTING)
+
+Hostinger shared hosting plans do **not** provide Node.js or `npm` in the SSH environment.
+Therefore, frontend assets must be compiled locally or via CI/CD before deployment:
+
+1. **Build Assets Locally**:
+   ```bash
+   npm install
+   npm run build
+   ```
+2. **Verify Output**:
+   Check that `public/build/manifest.json` and compiled CSS/JS exist in `public/build/assets/`.
+3. **Upload to Hostinger**:
+   Ensure the entire `public/build/` directory is uploaded directly into your `public_html/build/` directory.
+
+---
+
+## 13. PAYMENT GATEWAYS CONFIGURATION (MOYASAR & TAP)
+
+Nomowly supports **Moyasar** (Saudi Arabia, Mada, Apple Pay, Visa/Mastercard in SAR) and **Tap Payments** (GCC & regional currencies: SAR, KWD, AED, BHD, QAR, OMR, EGP).
+
+### Status Summary:
+- **Architecture**: Complete and decoupled via `PaymentGatewayInterface` and `PaymentGatewayManager`.
+- **Sandbox / Test Suite**: Uses `FakePaymentGateway` for automated feature and unit tests. In production (`APP_ENV=production`), `FakePaymentGateway` is strictly disabled and rejected.
+- **Production Gateways**: Ready to receive live traffic once credentials and webhook secrets are entered into `.env`.
+
+### Step-by-Step Gateway Activation:
+
+#### A. Moyasar (Mada, Apple Pay, Credit Card - SAR / KSA)
+1. Register and complete merchant verification at [moyasar.com](https://moyasar.com).
+2. Retrieve your keys from Moyasar Dashboard:
+   - For Testing: `pk_test_...` and `sk_test_...`
+   - For Production: `pk_live_...` and `sk_live_...`
+3. Configure `.env`:
+   ```dotenv
+   MOYASAR_API_KEY=sk_live_...
+   MOYASAR_PUBLISHABLE_KEY=pk_live_...
+   MOYASAR_WEBHOOK_SECRET=your_moyasar_webhook_secret
+   ```
+4. Set Webhook in Moyasar Dashboard:
+   - **URL**: `https://yourdomain.com/api/v1/payments/webhooks/moyasar`
+   - **Events**: `payment.paid`, `payment.failed`, `payment.refunded`
+
+#### B. Tap Payments (KNET, Benefit, Mada, Fawry, Apple Pay - GCC & Egypt)
+1. Register and complete merchant KYC at [tap.company](https://tap.company).
+2. Retrieve keys from Tap Dashboard &rarr; Credentials:
+   - For Testing: `sk_test_...` and `pk_test_...`
+   - For Production: `sk_live_...` and `pk_live_...`
+3. Configure `.env`:
+   ```dotenv
+   TAP_SECRET_KEY=sk_live_...
+   TAP_PUBLIC_KEY=pk_live_...
+   TAP_WEBHOOK_SECRET=your_tap_webhook_secret
+   ```
+4. Set Webhook in Tap Dashboard:
+   - **URL**: `https://yourdomain.com/api/v1/payments/webhooks/tap`
+   - **Events**: `charge.captured`, `charge.failed`, `refund.created`
+
+#### Pre-Live Checklist for Payments:
+- [ ] Test in Sandbox first using test cards before switching to live keys.
+- [ ] Confirm Webhook URLs are reachable over HTTPS and return HTTP 200 to test pings.
+- [ ] Verify that `FAKE_PAYMENT_GATEWAY_ENABLED=false` is set in production.
+- [ ] Never commit live secret keys to Git.
+
+---
+
+## 14. DATABASE BACKUP & RESTORATION
+
+1. **Automated Hostinger Backups**:
+   - Hostinger takes automated daily/weekly backups available under **Files &rarr; Backups** in hPanel.
+2. **Manual Pre-Update Export via CLI (SSH)**:
+   ```bash
+   mysqldump -u u123456789_nomowlyuser -p u123456789_nomowly > backup_$(date +%F).sql
+   ```
+3. **Manual Export via phpMyAdmin**:
+   - Go to **Databases &rarr; phpMyAdmin &rarr; Export** &rarr; Quick &rarr; SQL format.
+
+---
+
+## 15. VERIFICATION & LAUNCH CHECKLIST
 
 Open your browser and verify:
 1. `https://yourdomain.com/` &rarr; Homepage loads in Arabic RTL with compiled Tailwind assets.

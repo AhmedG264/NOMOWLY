@@ -89,7 +89,13 @@ class BootstrapAdminCommand extends Command
                 return self::FAILURE;
             }
 
-            // If account is already SUPER_ADMIN, remain idempotent: do NOT reset password or overwrite
+            // If account is already SUPER_ADMIN, ensure dynamic role is also attached idempotently
+            $superAdminRole = \App\Models\Role::where('name', UserRole::SUPER_ADMIN->value)->first();
+            if ($superAdminRole && !$existingUser->roles->contains('id', $superAdminRole->id)) {
+                $existingUser->roles()->attach($superAdminRole->id, [
+                    'assigned_by' => null,
+                ]);
+            }
             $this->info("IDEMPOTENT STATUS: Super Admin account for [{$adminEmail}] already exists. Credentials were not overwritten.");
             return self::SUCCESS;
         }
@@ -104,6 +110,13 @@ class BootstrapAdminCommand extends Command
             'must_change_password' => true,
             'email_verified_at' => now(),
         ]);
+
+        $superAdminRole = \App\Models\Role::where('name', UserRole::SUPER_ADMIN->value)->first();
+        if ($superAdminRole) {
+            $admin->roles()->attach($superAdminRole->id, [
+                'assigned_by' => null,
+            ]);
+        }
 
         // 5. Audit Log Entry
         AuditService::log(

@@ -44,9 +44,14 @@ class AdminCampaignController extends Controller
             'active' => Campaign::where('status', CampaignStatus::ACTIVE)->count(),
             'paused' => Campaign::where('status', CampaignStatus::PAUSED)->count(),
             'total_applications' => \App\Models\CampaignApplication::count(),
+            'premium' => Campaign::where('is_premium', true)->count(),
         ];
 
-        return view('admin.campaigns.index', compact('campaigns', 'stats'));
+        $subscriptionPlans = \App\Models\SubscriptionPlan::where('status', \App\Enums\SubscriptionPlanStatus::ACTIVE)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+
+        return view('admin.campaigns.index', compact('campaigns', 'stats', 'subscriptionPlans'));
     }
 
     /**
@@ -71,5 +76,50 @@ class AdminCampaignController extends Controller
         );
 
         return back()->with('status', "تم تحديث حالة الحملة بواسطة الإدارة إلى: {$newStatus->label()}");
+    }
+
+    /**
+     * Update campaign premium status and allowed plan entitlements.
+     */
+    public function updatePremium(Request $request, Campaign $campaign): RedirectResponse
+    {
+        // Authorization: only Super Admin or users with campaigns.manage_premium permission
+        if (!$request->user()->isSuperAdmin() && !$request->user()->hasPermission('campaigns.manage_premium')) {
+            abort(403, 'غير مصرح لك بإدارة إعدادات الحملات المميزة.');
+        }
+
+        $validated = $request->validate([
+            'is_premium' => ['required', 'boolean'],
+            'allowed_plan_ids' => ['nullable', 'array'],
+            'allowed_plan_ids.*' => ['uuid', 'exists:subscription_plans,id'],
+            'premium_requirements' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $oldPremium = $campaign->is_premium;
+        $campaign->update([
+            'is_premium' => (bool) $validated['is_premium'],
+            'allowed_plan_ids' => !empty($validated['allowed_plan_ids']) ? array_values($validated['allowed_plan_ids']) : null,
+            'premium_requirements' => $validated['premium_requirements'] ?? null,
+        ]);
+
+        AuditService::log(
+            AuditAction::CAMPAIGN_PREMIUM_STATUS_UPDATED,
+            $request->user()->id,
+            'Campaign',
+            $campaign->id,
+            [
+                'old_is_premium' => $oldPremium,
+                'new_is_premium' => (bool) $validated['is_premium'],
+                'allowed_plan_ids' => $campaign->allowed_plan_ids,
+            ],
+            status: 'SUCCESS',
+            reason: "تحديث إعدادات تمييز الحملة [{$campaign->title}] بواسطة الإدارة"
+        );
+
+        $msg = $validated['is_premium']
+            ? 'تم تمييز الحملة كحملة حصرية تتطلب اشتراكاً نشطاً.'
+            : 'تم تعيين الحملة كحملة عادية متاحة لجميع المسوقين.';
+
+        return back()->with('status', $msg);
     }
 }

@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'ensure_password_changed' => \App\Http\Middleware\EnsurePasswordIsChanged::class,
             'role' => \App\Http\Middleware\RequireRole::class,
             'verify_conversion_signature' => \App\Http\Middleware\VerifyConversionApiSignature::class,
+            'permission' => \App\Http\Middleware\RequirePermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

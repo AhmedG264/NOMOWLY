@@ -104,9 +104,17 @@
                                 <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">العلامة التجارية</span>
                                 <span class="font-black text-slate-900 text-sm">{{ $cBrand }}</span>
                             </div>
-                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
-                                {{ $cCategory }}
-                            </span>
+                            <div class="flex items-center gap-1.5">
+                                @if(is_object($campaign) && $campaign->is_premium)
+                                    <span class="font-black text-amber-800 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-300 text-[11px] flex items-center gap-1">
+                                        <span>⭐</span>
+                                        <span>حصرية</span>
+                                    </span>
+                                @endif
+                                <span class="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 text-xs">
+                                    {{ $cCategory }}
+                                </span>
+                            </div>
                         </div>
 
                         <!-- Campaign Title & Description -->

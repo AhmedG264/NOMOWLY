@@ -46,7 +46,9 @@ class AuthenticatedSessionController extends Controller
                 userId: null,
                 entityType: 'User',
                 entityId: null,
-                payloadDiff: ['attempted_email' => $request->input('email')]
+                payloadDiff: ['attempted_email' => $request->input('email')],
+                status: 'FAILED',
+                reason: 'بيانات الاعتماد المدخلة غير صحيحة'
             );
 
             throw ValidationException::withMessages([

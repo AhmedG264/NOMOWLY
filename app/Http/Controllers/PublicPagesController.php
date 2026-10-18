@@ -245,7 +245,13 @@ class PublicPagesController extends Controller
         $marketerProfile = $user?->marketerProfile;
         $myApplication = $marketerProfile ? $campaign->getApplicationFor($marketerProfile) : null;
 
-        return view('pages.campaign-detail', compact('campaign', 'myApplication'));
+        $entitlementCheck = null;
+        if ($user && $user->isMarketer()) {
+            $entitlementService = app(\App\Services\Subscription\SubscriptionEntitlementService::class);
+            $entitlementCheck = $entitlementService->canApply($user, $campaign);
+        }
+
+        return view('pages.campaign-detail', compact('campaign', 'myApplication', 'entitlementCheck'));
     }
 
     /**

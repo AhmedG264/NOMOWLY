@@ -61,6 +61,13 @@ class CampaignController extends Controller
      */
     public function apply(Request $request, Campaign $campaign): RedirectResponse
     {
+        $entitlementService = app(\App\Services\Subscription\SubscriptionEntitlementService::class);
+        $check = $entitlementService->canApply($request->user(), $campaign);
+        if (!$check['allowed']) {
+            return redirect()->route('marketplace.show', $campaign->slug)
+                ->with('error', $check['reason'] ?? 'أنت غير مؤهل للتقديم على هذه الحملة المميزة.');
+        }
+
         Gate::authorize('apply', $campaign);
 
         $validated = $request->validate([
@@ -79,11 +86,13 @@ class CampaignController extends Controller
 
         $application = CampaignApplication::create([
             'campaign_id' => $campaign->id,
+            'terms_version_id' => $campaign->current_terms_version_id,
             'marketer_profile_id' => $marketerProfile->id,
             'status' => CampaignApplicationStatus::PENDING,
             'pitch_note' => $validated['pitch_note'] ?? null,
             'channel_urls' => $channelUrls,
             'applied_at' => now(),
+            'accepted_terms_at' => now(),
         ]);
 
         AuditService::log(
@@ -91,10 +100,29 @@ class CampaignController extends Controller
             $request->user()->id,
             'CampaignApplication',
             $application->id,
-            ['campaign_id' => $campaign->id, 'campaign_title' => $campaign->title]
+            ['campaign_id' => $campaign->id, 'campaign_title' => $campaign->title, 'terms_version_id' => $campaign->current_terms_version_id]
         );
 
         return redirect()->route('marketplace.show', $campaign->slug)
             ->with('status', 'تم إرسال طلب انضمامك للحملة بنجاح، وستتم مراجعته وتفعيل كود التتبع من قبل العلامة التجارية قريباً.');
+    }
+
+    /**
+     * Marketer explicitly accepts an updated terms version.
+     */
+    public function acceptTerms(Request $request, CampaignApplication $application, \App\Models\CampaignTermsVersion $version): RedirectResponse
+    {
+        $marketerProfile = $request->user()->marketerProfile;
+        if ($application->marketer_profile_id !== $marketerProfile->id) {
+            abort(403);
+        }
+
+        app(\App\Services\Campaign\CampaignTermsService::class)->marketerAcceptVersion(
+            $application,
+            $version,
+            $request->user()
+        );
+
+        return back()->with('status', "تمت الموافقة وتحديث مشاركتك إلى شروط الإصدار رقم v{$version->version_number} بنجاح.");
     }
 }

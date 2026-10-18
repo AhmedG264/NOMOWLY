@@ -254,7 +254,8 @@ class CampaignSeeder extends Seeder
         ];
 
         foreach ($campaignsData as $data) {
-            Campaign::updateOrCreate(['slug' => $data['slug']], $data);
+            $camp = Campaign::updateOrCreate(['slug' => $data['slug']], $data);
+            app(\App\Services\Campaign\CampaignTermsService::class)->createInitialVersion($camp);
         }
 
         // 5. Seed Applications for Ahmed Kamal
@@ -266,6 +267,7 @@ class CampaignSeeder extends Seeder
                     'marketer_profile_id' => $marketerProfile->id,
                 ],
                 [
+                    'terms_version_id' => $saraCampaign->current_terms_version_id,
                     'status' => CampaignApplicationStatus::APPROVED,
                     'pitch_note' => 'أخطط لنشر سلسة فيديوهات ريلز وتيك توك تستعرض تجربة أزياء المناسبات والعبايات مع كود الخصم الحصري لجمهوري في الرياض وجدة.',
                     'channel_urls' => ['https://instagram.com/ahmed_reviews', 'https://tiktok.com/@ahmed_fashion'],
@@ -273,9 +275,12 @@ class CampaignSeeder extends Seeder
                     'tracking_link' => url('/go/sara-kamal-15'),
                     'review_notes' => 'مرحباً أحمد، سعداء بانضمامك كشريك تسويقي رسمي. كودك مفعل الآن بنسبة خصم وعمولة 15%.',
                     'applied_at' => now()->subDays(3),
+                    'accepted_terms_at' => now()->subDays(3),
                     'reviewed_at' => now()->subDays(2),
                 ]
             );
+
+            $saraCampaign->lockTerms('تم تثبيت الشروط التعاقدية لاعتماد أول مسوق رسمي في الحملة.');
         }
 
         $lavenderCampaign = Campaign::where('slug', 'lavender-perfumes-arabia')->first();
@@ -286,10 +291,12 @@ class CampaignSeeder extends Seeder
                     'marketer_profile_id' => $marketerProfile->id,
                 ],
                 [
+                    'terms_version_id' => $lavenderCampaign->current_terms_version_id,
                     'status' => CampaignApplicationStatus::PENDING,
                     'pitch_note' => 'لدي جمهور مهتم بالعطور الفاخرة والهدايا في السعودية والإمارات وأرغب بالحصول على كود خصم مخصص للحملة.',
                     'channel_urls' => ['https://tiktok.com/@ahmed_perfumes'],
                     'applied_at' => now()->subHours(6),
+                    'accepted_terms_at' => now()->subHours(6),
                 ]
             );
         }

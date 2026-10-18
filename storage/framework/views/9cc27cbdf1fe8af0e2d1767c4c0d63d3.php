@@ -51,6 +51,14 @@
                         <?php echo e($campaign->category); ?>
 
                     </span>
+
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($campaign->is_premium): ?>
+                        <span class="px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-black border border-amber-400/40 flex items-center gap-1.5">
+                            <span>⭐</span>
+                            <span>حملة مميزة حصرية للمشتركين</span>
+                        </span>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
                     <span class="text-slate-400 text-xs font-bold">العلامة التجارية:</span>
                     <span class="text-white font-black text-sm bg-white/10 px-3 py-0.5 rounded-lg border border-white/10">
                         <?php echo e($campaign->brandProfile?->company_name ?? 'علامة تجارية موثقة'); ?>
@@ -281,38 +289,68 @@
                             </div>
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <?php else: ?>
-                        <!-- APPLICATION FORM -->
-                        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm space-y-5">
-                            <div>
-                                <h3 class="text-lg font-black text-slate-900">التقديم على الحملة</h3>
-                                <p class="text-xs text-slate-500 mt-1">
-                                    أرسل مقترحك وخطة النشر للعلامة التجارية للحصول على كود الخصم ورابط التتبع.
-                                </p>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($campaign->is_premium && isset($entitlementCheck) && !$entitlementCheck['allowed']): ?>
+                            <!-- PREMIUM LOCKED NOTICE -->
+                            <div class="bg-gradient-to-br from-purple-950 via-slate-900 to-purple-950 rounded-3xl p-6 sm:p-7 border border-purple-500/40 text-white shadow-xl space-y-4">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/30">
+                                    <span>⭐</span>
+                                    <span>حملة مميزة تتطلب اشتراكاً نشطاً</span>
+                                </div>
+
+                                <h3 class="text-lg font-black tracking-tight">غير مؤهل للتقديم على هذه الحملة حالياً</h3>
+
+                                <div class="p-3.5 rounded-2xl bg-white/10 border border-white/10 text-xs text-slate-200 leading-relaxed font-normal">
+                                    <?php echo e($entitlementCheck['reason']); ?>
+
+                                </div>
+
+                                <div class="pt-2">
+                                    <a href="<?php echo e(route('marketer.plans.index')); ?>" class="block w-full py-3 text-center bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-md transition">
+                                        استعراض وترقية باقات الاشتراك الآن ↗
+                                    </a>
+                                </div>
                             </div>
-
-                            <form method="POST" action="<?php echo e(route('marketer.campaigns.apply', $campaign)); ?>" class="space-y-4">
-                                <?php echo csrf_field(); ?>
+                        <?php else: ?>
+                            <!-- APPLICATION FORM -->
+                            <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm space-y-5">
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($campaign->is_premium): ?>
+                                    <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 flex items-center gap-2">
+                                        <span class="text-emerald-600 font-black">✓</span>
+                                        <span>اشتراكك النشط يؤهلك للمشاركة في هذه الحملة الحصرية</span>
+                                    </div>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">
-                                        كيف تخطط للترويج للحملة؟ (Pitch / Proposal)
-                                    </label>
-                                    <textarea name="pitch_note" rows="3" class="w-full text-xs rounded-xl border border-slate-300 p-3 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="مثال: سأنشر فيديو ريلز يوضح تجربة استخدام المنتج مع مراجعة حقيقية لجمهوري في السعودية ومصر..."></textarea>
+                                    <h3 class="text-lg font-black text-slate-900">التقديم على الحملة</h3>
+                                    <p class="text-xs text-slate-500 mt-1">
+                                        أرسل مقترحك وخطة النشر للعلامة التجارية للحصول على كود الخصم ورابط التتبع.
+                                    </p>
                                 </div>
 
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">
-                                        روابط قنواتك التسويقية أو حساباتك
-                                    </label>
-                                    <textarea name="channels" rows="2" class="w-full text-xs font-mono rounded-xl border border-slate-300 p-3 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="https://tiktok.com/@youraccount&#10;https://instagram.com/youraccount"></textarea>
-                                    <span class="text-[10px] text-slate-400 mt-1 block">ضع رابطاً في كل سطر</span>
-                                </div>
+                                <form method="POST" action="<?php echo e(route('marketer.campaigns.apply', $campaign)); ?>" class="space-y-4">
+                                    <?php echo csrf_field(); ?>
 
-                                <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black shadow-sm transition cursor-pointer">
-                                    إرسال طلب الانضمام للحملة
-                                </button>
-                            </form>
-                        </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                                            كيف تخطط للترويج للحملة؟ (Pitch / Proposal)
+                                        </label>
+                                        <textarea name="pitch_note" rows="3" class="w-full text-xs rounded-xl border border-slate-300 p-3 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="مثال: سأنشر فيديو ريلز يوضح تجربة استخدام المنتج مع مراجعة حقيقية لجمهوري في السعودية ومصر..."></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                                            روابط قنواتك التسويقية أو حساباتك
+                                        </label>
+                                        <textarea name="channels" rows="2" class="w-full text-xs font-mono rounded-xl border border-slate-300 p-3 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="https://tiktok.com/@youraccount&#10;https://instagram.com/youraccount"></textarea>
+                                        <span class="text-[10px] text-slate-400 mt-1 block">ضع رابطاً في كل سطر</span>
+                                    </div>
+
+                                    <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black shadow-sm transition cursor-pointer">
+                                        إرسال طلب الانضمام للحملة
+                                    </button>
+                                </form>
+                            </div>
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <?php elseif(auth()->user()->isBrand()): ?>
                     <!-- BRAND LOGGED IN -->

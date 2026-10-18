@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(\App\Services\Payment\PaymentGatewayManager::class);
     }
 
     /**
@@ -37,8 +37,15 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme("https");
         }
         // Server-side Authorization Gates
+        // Super Admin holds universal authorization
+        Gate::before(function (User $user, string $ability) {
+            if ($user->isSuperAdmin()) {
+                return true;
+            }
+        });
+
         Gate::define('access-super-admin', function (User $user) {
-            return $user->role === UserRole::SUPER_ADMIN;
+            return $user->isSuperAdmin();
         });
 
         Gate::define('access-brand', function (User $user) {

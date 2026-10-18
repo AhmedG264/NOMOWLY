@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="lD6GI7IJkLk2b5XWrITThEd1DBQzIff7MNDRbQNZ">
+
+    <title>منصة نمولي | Nomowly — سوق التسويق بالأداء واقتصاد صناع المحتوى العربي</title>
+    <meta name="description" content="نمولي (Nomowly) - سوق التسويق بالأداء في العالم العربي. نربط العلامات التجارية والمتاجر الإلكترونية بنخبة صناع المحتوى والمسوقين ومشتري الإعلانات، مع دفع مقابل المبيعات المؤكدة فقط.">
+
+    <!-- Open Graph / Social Meta -->
+    <meta property="og:title" content="منصة نمولي | Nomowly — سوق التسويق بالأداء العربي">
+    <meta property="og:description" content="اربط علامتك التجارية بنخبة صناع المحتوى والمسوقين.. وادفع فقط مقابل المبيعات المؤكدة (CPO/CPA).">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+    <meta name="theme-color" content="#059669">
+
+    <!-- Google Fonts: Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Styles & Scripts (Tailwind CSS + Alpine.js via Vite) -->
+    <link rel="preload" as="style" href="/build/assets/app-BhYREPDH.css" /><link rel="modulepreload" as="script" href="/build/assets/app-SeuWdjeY.js" /><link rel="stylesheet" href="/build/assets/app-BhYREPDH.css" data-navigate-track="reload" /><script type="module" src="/build/assets/app-SeuWdjeY.js" data-navigate-track="reload"></script></head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen antialiased flex flex-col justify-between selection:bg-emerald-500 selection:text-white" x-data="{ mobileMenuOpen: false }">
+    <!-- Header -->
+    <header class="border-b border-slate-200/80 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="h-20 flex items-center justify-between gap-4">
+                <!-- Brand Logo -->
+                <a href="http://localhost:3000" class="flex items-center gap-3 shrink-0 group">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black text-2xl shadow-md group-hover:shadow-emerald-500/25 transition">
+                        ن
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-2xl font-black text-slate-900 tracking-tight">نمولي</span>
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">Nomowly</span>
+                        </div>
+                        <span class="text-[11px] text-slate-500 font-semibold block -mt-0.5">سوق التسويق بالأداء العربي</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-1 xl:gap-2">
+                    <a href="http://localhost:3000"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        الرئيسية
+                    </a>
+                    <a href="http://localhost:3000/marketplace"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        سوق الحملات
+                    </a>
+                    <a href="http://localhost:3000/for-brands"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        للعلامات التجارية
+                    </a>
+                    <a href="http://localhost:3000/for-marketers"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        للمسوقين والمبدعين
+                    </a>
+                    <a href="http://localhost:3000/how-it-works"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        كيف تعمل المنصة
+                    </a>
+                    <a href="http://localhost:3000/pricing"
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100/70">
+                        الأسعار
+                    </a>
+                </nav>
+
+                <!-- Auth / User CTA -->
+                <div class="hidden sm:flex items-center gap-3">
+                                            <a href="http://localhost:3000/login" class="text-sm font-bold text-slate-700 hover:text-emerald-700 px-3.5 py-2 rounded-xl hover:bg-slate-100 transition whitespace-nowrap">
+                            تسجيل الدخول
+                        </a>
+                        <a href="http://localhost:3000/register" class="text-sm font-black text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2.5 rounded-xl shadow-sm hover:shadow-emerald-600/20 transition whitespace-nowrap">
+                            ابدأ الآن مجاناً
+                        </a>
+                                    </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex sm:hidden items-center">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen"
+                            type="button"
+                            class="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden"
+                            aria-label="القائمة الرئيسية">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Dropdown -->
+            <div x-show="mobileMenuOpen"
+                 x-transition:enter="transition ease-out duration-150"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 class="lg:hidden pb-4 pt-2 border-t border-slate-200/70 space-y-1">
+                <a href="http://localhost:3000" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">الرئيسية</a>
+                <a href="http://localhost:3000/marketplace" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">سوق الحملات</a>
+                <a href="http://localhost:3000/for-brands" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">للعلامات التجارية</a>
+                <a href="http://localhost:3000/for-marketers" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">للمسوقين والمبدعين</a>
+                <a href="http://localhost:3000/how-it-works" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">كيف تعمل المنصة</a>
+                <a href="http://localhost:3000/pricing" class="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100">الأسعار</a>
+
+                <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+                                            <a href="http://localhost:3000/login" class="text-center text-sm font-bold py-2 text-slate-700 hover:bg-slate-100 rounded-xl">تسجيل الدخول</a>
+                        <a href="http://localhost:3000/register" class="text-center text-sm font-black py-2.5 bg-emerald-600 text-white rounded-xl shadow-xs">ابدأ الآن مجاناً</a>
+                                    </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Slot -->
+    <main class="flex-grow">
+        
+        <div class="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto" x-data="{ selectedRole: 'MARKETER' }">
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <div class="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 items-center justify-center text-white font-black text-2xl shadow-lg shadow-emerald-600/20 mb-3">
+            ن
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
+            إنشاء حساب جديد في منصة نمولي
+        </h1>
+        <p class="mt-2 text-sm text-slate-600 font-medium">
+            لديك حساب بالفعل؟
+            <a href="http://localhost:3000/login" class="font-bold text-emerald-600 hover:text-emerald-700 underline underline-offset-4 mr-1">
+                تسجيل الدخول
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white py-8 px-6 sm:px-10 shadow-xl shadow-slate-200/60 rounded-3xl border border-slate-200/80">
+        <!-- Error Alerts -->
+        
+        <form method="POST" action="http://localhost:3000/register" class="space-y-6">
+            <input type="hidden" name="_token" value="lD6GI7IJkLk2b5XWrITThEd1DBQzIff7MNDRbQNZ" autocomplete="off">
+            <!-- Role Selection Cards -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5">
+                    اختر نوع الحساب
+                </label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <!-- Marketer Choice -->
+                    <label class="relative flex flex-col p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 select-none"
+                        :class="selectedRole === 'MARKETER' ? 'border-emerald-600 bg-emerald-50/50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'">
+                        <input type="radio" name="role" value="MARKETER" x-model="selectedRole" class="sr-only">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="font-black text-slate-900 text-sm sm:text-base">مسوق بالعمولة (Marketer)</span>
+                            <span class="text-xl">🚀</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-medium leading-relaxed">
+                            لصناع المحتوى والمؤثرين ومشتري الإعلانات والمسوقين بالأداء الراغبين بتحقيق أرباح عبر العمولات.
+                        </p>
+                        <div class="mt-3 flex items-center gap-1.5 text-[11px] font-bold"
+                            :class="selectedRole === 'MARKETER' ? 'text-emerald-700' : 'text-slate-400'">
+                            <span class="w-2 h-2 rounded-full" :class="selectedRole === 'MARKETER' ? 'bg-emerald-600' : 'bg-slate-300'"></span>
+                            <span>محدد كنوع الحساب</span>
+                        </div>
+                    </label>
+
+                    <!-- Brand Choice -->
+                    <label class="relative flex flex-col p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 select-none"
+                        :class="selectedRole === 'BRAND' ? 'border-emerald-600 bg-emerald-50/50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'">
+                        <input type="radio" name="role" value="BRAND" x-model="selectedRole" class="sr-only">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="font-black text-slate-900 text-sm sm:text-base">علامة تجارية (Brand)</span>
+                            <span class="text-xl">🏬</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-medium leading-relaxed">
+                            للمتاجر الإلكترونية والشركات والعلامات التجارية لزيادة المبيعات عبر شبكة تسويق بالأداء.
+                        </p>
+                        <div class="mt-3 flex items-center gap-1.5 text-[11px] font-bold"
+                            :class="selectedRole === 'BRAND' ? 'text-emerald-700' : 'text-slate-400'">
+                            <span class="w-2 h-2 rounded-full" :class="selectedRole === 'BRAND' ? 'bg-emerald-600' : 'bg-slate-300'"></span>
+                            <span>محدد كنوع الحساب</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Basic User Info -->
+            <div class="pt-2 border-t border-slate-100">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            الاسم الكامل
+                        </label>
+                        <input id="name" name="name" type="text" required value=""
+                            placeholder="مثال: أحمد محمد"
+                            class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/40 text-slate-900 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition duration-150">
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            البريد الإلكتروني
+                        </label>
+                        <input id="email" name="email" type="email" required value=""
+                            placeholder="name@example.com"
+                            class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/40 text-slate-900 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition duration-150">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Fields -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        كلمة المرور
+                    </label>
+                    <input id="password" name="password" type="password" required autocomplete="new-password"
+                        placeholder="8 أحرف على الأقل (أرقام وأحرف)"
+                        class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/40 text-slate-900 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition duration-150">
+                </div>
+
+                <div>
+                    <label for="password_confirmation" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        تأكيد كلمة المرور
+                    </label>
+                    <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
+                        placeholder="أعد إدخال كلمة المرور"
+                        class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/40 text-slate-900 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition duration-150">
+                </div>
+            </div>
+
+            <!-- Brand Specific Fields (Alpine reactive) -->
+            <div x-show="selectedRole === 'BRAND'" x-cloak class="space-y-4 pt-4 border-t border-slate-100">
+                <div class="flex items-center gap-2 text-sm font-black text-slate-900">
+                    <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs">🏢</span>
+                    <span>بيانات العلامة التجارية والمتجر الإلكتروني</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="company_name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            اسم المتجر أو الشركة
+                        </label>
+                        <input id="company_name" name="company_name" type="text" value=""
+                            placeholder="مثال: متجر الأناقة"
+                            class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/40 text-slate-900 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition duration-150">
+                    </div>
+
+                    <div>
+                        <label for="currency" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            العملة الأساسية لمتجرك
+                        </label>
+                        <select id="currency" name="currency"
+                            class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/40 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition duration-150">
+                                                            <option value="EGP" selected>
+                                    الجنيه المصري (EGP - ج.م)
+                                </option>
+                                                            <option value="SAR" >
+                                    الريال السعودي (SAR - ر.س)
+                                </option>
+                                                            <option value="AED" >
+                                    الدرهم الإماراتي (AED - د.إ)
+                                </option>
+                                                            <option value="KWD" >
+                                    الدينار الكويتي (KWD - د.ك)
+                                </option>
+                                                            <option value="QAR" >
+                                    الريال القطري (QAR - ر.ق)
+                                </option>
+                                                            <option value="BHD" >
+                                    الدينار البحريني (BHD - د.ب)
+                                </option>
+                                                            <option value="OMR" >
+                                    الريال العماني (OMR - ر.ع)
+                                </option>
+                                                    </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="website_url" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        رابط المتجر أو الموقع الإلكتروني (اختياري)
+                    </label>
+                    <input id="website_url" name="website_url" type="url" placeholder="https://yourstore.com" value=""
+                        class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/40 text-slate-900 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition duration-150">
+                </div>
+            </div>
+
+            <!-- Marketer Specific Fields (Alpine reactive) -->
+            <div x-show="selectedRole === 'MARKETER'" x-cloak class="space-y-4 pt-4 border-t border-slate-100">
+                <div class="flex items-center gap-2 text-sm font-black text-slate-900">
+                    <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-800 flex items-center justify-center text-xs">🎯</span>
+                    <span>تخصصات التسويق والعمل</span>
+                </div>
+
+                <div>
+                    <label for="primary_specialization" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        التخصص الرئيسي (إلزامي)
+                    </label>
+                    <select id="primary_specialization" name="primary_specialization"
+                        class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/40 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition duration-150">
+                                                    <option value="CREATOR" >
+                                صانع محتوى ومؤثر (Creator)
+                            </option>
+                                                    <option value="AFFILIATE" >
+                                مسوق بالعمولة (Affiliate)
+                            </option>
+                                                    <option value="MEDIA_BUYER" >
+                                مشتري إعلانات (Media Buyer)
+                            </option>
+                                            </select>
+                    <p class="text-[11px] text-slate-500 mt-1">يحدد هذا التخصص العروض والحملات الأكثر ملاءمة لمهاراتك في لوحة التحكم.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        تخصصات إضافية تمارسها (اختياري)
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                                    <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50/40 hover:bg-slate-100 cursor-pointer text-xs font-bold text-slate-700 select-none transition">
+                                <input type="checkbox" name="specializations[]" value="CREATOR"
+                                    class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                                <span>صانع محتوى ومؤثر (Creator)</span>
+                            </label>
+                                                    <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50/40 hover:bg-slate-100 cursor-pointer text-xs font-bold text-slate-700 select-none transition">
+                                <input type="checkbox" name="specializations[]" value="AFFILIATE"
+                                    class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                                <span>مسوق بالعمولة (Affiliate)</span>
+                            </label>
+                                                    <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50/40 hover:bg-slate-100 cursor-pointer text-xs font-bold text-slate-700 select-none transition">
+                                <input type="checkbox" name="specializations[]" value="MEDIA_BUYER"
+                                    class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                                <span>مشتري إعلانات (Media Buyer)</span>
+                            </label>
+                                            </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+                <button type="submit"
+                    class="w-full flex justify-center items-center gap-2 py-3.5 px-4 rounded-xl shadow-md shadow-emerald-600/20 text-sm font-black text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-150 cursor-pointer">
+                    <span>تأكيد وإنشاء الحساب</span>
+                    <span>←</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+    </main>
+
+    <!-- Professional Nomowly Footer -->
+    <footer class="border-t border-slate-200 bg-white pt-16 pb-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+                <!-- Brand Summary -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black text-xl shadow-md">
+                            ن
+                        </div>
+                        <div>
+                            <span class="text-2xl font-black text-slate-900 tracking-tight block">نمولي</span>
+                            <span class="text-xs text-emerald-700 font-bold block -mt-1 uppercase tracking-wider">Nomowly</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6 font-normal max-w-md">
+                        المنصة الإقليمية الرائدة للتسويق بالأداء واقتصاد صناع المحتوى في مصر ودول الخليج العربي. نربط المتاجر والعلامات التجارية الطموحة بنخبة المسوقين ومشتري الإعلانات لتحقيق مبيعات مؤكدة، بدفع حصري مقابل النتائج المحققة.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs text-slate-500">
+                        <span class="font-bold text-slate-700">الأسواق النشطة:</span>
+                        <span>مصر</span>
+                        <span>·</span>
+                        <span>السعودية</span>
+                        <span>·</span>
+                        <span>الإمارات</span>
+                        <span>·</span>
+                        <span>الكويت</span>
+                        <span>·</span>
+                        <span>قطر</span>
+                        <span>·</span>
+                        <span>عمان</span>
+                        <span>·</span>
+                        <span>البحرين</span>
+                    </div>
+                </div>
+
+                <!-- Column: For Brands -->
+                <div>
+                    <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4">للعلامات التجارية</h3>
+                    <ul class="space-y-2.5 text-sm text-slate-600 font-medium">
+                        <li><a href="http://localhost:3000/for-brands" class="hover:text-emerald-700 transition">أطلق حملتك الأولى</a></li>
+                        <li><a href="http://localhost:3000/marketplace" class="hover:text-emerald-700 transition">تصفح سوق الحملات</a></li>
+                        <li><a href="http://localhost:3000/pricing" class="hover:text-emerald-700 transition">نموذج الدفع بالأداء (CPO)</a></li>
+                        <li><a href="http://localhost:3000/register?role=BRAND" class="text-emerald-700 font-bold hover:underline">سجل كعلامة تجارية</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column: For Marketers -->
+                <div>
+                    <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4">للمسوقين والمبدعين</h3>
+                    <ul class="space-y-2.5 text-sm text-slate-600 font-medium">
+                        <li><a href="http://localhost:3000/for-marketers" class="hover:text-emerald-700 transition">دليل صناع المحتوى</a></li>
+                        <li><a href="http://localhost:3000/for-marketers#media-buyers" class="hover:text-emerald-700 transition">برامج مشتري الإعلانات</a></li>
+                        <li><a href="http://localhost:3000/marketplace" class="hover:text-emerald-700 transition">تصفح فرص الحملات</a></li>
+                        <li><a href="http://localhost:3000/register?role=MARKETER" class="text-emerald-700 font-bold hover:underline">انضم كصانع محتوى / مسوق</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column: Platform & Help -->
+                <div>
+                    <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4">المنصة والمساندة</h3>
+                    <ul class="space-y-2.5 text-sm text-slate-600 font-medium">
+                        <li><a href="http://localhost:3000/how-it-works" class="hover:text-emerald-700 transition">كيف تعمل نمولي</a></li>
+                        <li><a href="http://localhost:3000/pricing" class="hover:text-emerald-700 transition">الأسعار والعمولات</a></li>
+                        <li><a href="http://localhost:3000/login" class="hover:text-emerald-700 transition">تسجيل الدخول</a></li>
+                        <li class="pt-2 text-xs text-slate-500">
+                            الدعم والاستفسارات:<br>
+                            <a href="mailto:hello@nomowly.com" class="font-bold text-slate-700 hover:text-emerald-700">hello@nomowly.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Subfooter -->
+            <div class="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>© 2026 منصة نمولي (Nomowly). جميع الحقوق محفوظة — منصة الأداء المعتمدة للشرق الأوسط.</p>
+                <div class="flex items-center gap-6">
+                    <span class="inline-flex items-center gap-1.5 text-emerald-700 font-bold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>السوق متاح والفرص نشطة</span>
+                    </span>
+                    <span>العملات الصريحة: EGP · SAR · AED · KWD · QAR · OMR · BHD</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

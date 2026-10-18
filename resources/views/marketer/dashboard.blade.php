@@ -16,6 +16,10 @@
             </p>
         </div>
         <div class="flex items-center gap-3">
+            <a href="{{ route('marketer.wallet.index') }}" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-md transition flex items-center gap-2">
+                <span>💳</span>
+                <span>محفظتي والأرباح</span>
+            </a>
             <a href="{{ route('marketer.campaigns.index') }}" class="px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-md transition flex items-center gap-2">
                 <span>📋</span>
                 <span>حملاتي وأكواد التتبع</span>
@@ -38,7 +42,24 @@
     @endif
 
     <!-- Key Navigation Hub Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white p-6 rounded-3xl border border-teal-200/80 shadow-xs flex flex-col justify-between">
+            <div class="space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-black">
+                    💳
+                </div>
+                <h3 class="text-base font-black text-slate-900">محفظتي وسحب الأرباح</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    متابعة أرصدتك المتاحة بالعملات المختلفة، سجل العمولات المستحقة، وتقديم طلبات سحب الأرباح المصرفية.
+                </p>
+            </div>
+            <div class="pt-5">
+                <a href="{{ route('marketer.wallet.index') }}" class="block w-full text-center py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition">
+                    المحفظة وطلبات السحب ←
+                </a>
+            </div>
+        </div>
+
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
             <div class="space-y-3">
                 <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl font-black">

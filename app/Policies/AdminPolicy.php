@@ -12,7 +12,7 @@ class AdminPolicy
      */
     public function viewAdmin(User $user): bool
     {
-        return $user->role === UserRole::SUPER_ADMIN;
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -20,7 +20,7 @@ class AdminPolicy
      */
     public function manageBrands(User $user): bool
     {
-        return $user->role === UserRole::SUPER_ADMIN;
+        return $user->isSuperAdmin() || $user->hasPermission('brands.manage');
     }
 
     /**
@@ -28,7 +28,7 @@ class AdminPolicy
      */
     public function manageMarketers(User $user): bool
     {
-        return $user->role === UserRole::SUPER_ADMIN;
+        return $user->isSuperAdmin() || $user->hasPermission('marketers.manage');
     }
 
     /**
@@ -36,6 +36,6 @@ class AdminPolicy
      */
     public function viewAuditLogs(User $user): bool
     {
-        return $user->role === UserRole::SUPER_ADMIN;
+        return $user->isSuperAdmin() || $user->hasPermission('audit.view');
     }
 }
